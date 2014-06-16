@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <mvc:annotation-driven validator="validator"/>
+    <mvc:default-servlet-handler />
+    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/"/>
+
+    <!-- указать пакет с определениями контроллеров -->
+    <context:component-scan base-package="com.daoleen.devicemeeting.web.controller"/>
+
+    <!-- Валидация -->
+    <!-- ВНИМАНИЕ! Файлы локализации должны называться ValidationMessages.properties и лежать в src/main/resources -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+    <!-- Поддержка загрузки файлов на сервер -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
+
+    <!-- Дополнительные возможности -->
+    <import resource="../features/thymeleaf.xml" />
+    <import resource="../features/locale.xml" />
+    <import resource="../features/theme.xml" />
+</beans>

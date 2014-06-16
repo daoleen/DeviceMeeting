@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--
+        Этот файл должен импортироваться из spring-context.xml
+    -->
+
+    <!--
+    ° ? matches a single character
+    ° * matches zero or more characters, excluding /
+    ° ** matches zero or more directories in a path
+    -->
+    <http pattern="/resources/**" security="none" />
+
+    <!-- use-expressions="true" - For using SpringSecurity tags in Thymeleaf -->
+    <http auto-config="true" use-expressions="true">
+
+        <!-- when it uses an expressions there are new way to define access over
+        hasRole(), hasAuthority(), hasAnyRole(), hasAnyAuthority(), string permitAll,...etc
+        -->
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/account/login" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_USER')" />
+        <intercept-url pattern="/account/logout" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_USER')" />
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/WEB-INF/resources/css/account" access="ROLE_USER" />
+
+        <!-- default-target-url="/account/profile" - перенаправляет юзера после удачной авторизации
+        вроде как id не принимает (хотя возможно), если так, то можно его направить на контроллер
+        в котором сделать редирект на профиль (костыль)
+        -->
+        <form-login login-page="/account/login"
+                    login-processing-url="/account/login/process"
+                    authentication-failure-url="/account/login?fail=true"
+                    username-parameter="username"
+                    password-parameter="password"
+                />
+
+        <logout logout-url="/account/logout" />
+    </http>
+
+
+    <authentication-manager>
+        <!--<authentication-provider>-->
+        <!--<user-service>-->
+        <!--<user name="admin" authorities="ROLE_ADMIN" password="admin" />-->
+        <!--<user name="people" authorities="ROLE_USER,ROLE_ADMIN" password="user" />-->
+        <!--</user-service>-->
+        <!--</authentication-provider>-->
+
+        <!-- можно разработать свой userService
+одним из преимуществ разработки собственного юзер-сервиса является то, что
+при этом подходе авторизация будет происходить через доменную модель приложения,
+т.е. через DAO UserService, построенного разработчиком
+-->
+        <!--<authentication-provider user-service-ref="myUserDetailsService" />-->
+
+        <!-- самый конфигурируемый подход - это разработка собственного AuthenticationProvider
+(лучше всего вместе с UserService).
+Переопределение стандартного AuthenticationProvider может позволить авторизацию пользователя
+не только через username, а вместо его например через email+telephone
+-->
+
+    </authentication-manager>
+
+
+    <!-- Включение возможности защиты с помощью АННОТАЦИЙ SpringSecurity -->
+    <!-- secured-annotations  - включает аннотацию @Secured -->
+    <!-- pre-post-annotations - включает интерцепторы @PreAuthorize и @PostAuthorize -->
+    <!-- jsr250-annotations - включает JEE-аннотации JSR250 -->
+    <global-method-security secured-annotations="enabled"/>
+
+
+    <!--<beans:bean id="myUserDetailsService" class="com.daoleen.devicemeeting.web.security.MyUserDetailsService" />-->
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+
+</beans:beans>
