@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/p">
+
+    <!--
+        Этот файл должен импортироваться из servlet-context.xml
+    -->
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
+    </mvc:interceptors>
+
+    <!-- Опеределяем ресурсы для темы -->
+    <bean class="org.springframework.ui.context.support.ResourceBundleThemeSource"
+          id="themeSource"/>
+
+    <!-- Указание, что тема будет храниться в куках -->
+    <!-- файл со стандартной темой standard.properties положить в /WEB-INF/classes/ -->
+    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver"
+          id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>
+
+</beans>
