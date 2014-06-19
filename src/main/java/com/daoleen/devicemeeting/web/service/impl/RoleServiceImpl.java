@@ -23,6 +23,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
 
     @Autowired
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     private EntityManager entityManager;
 
     @Override
@@ -40,6 +41,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(readOnly = true)
     public Role findByName(String name) {
+        //noinspection JpaQlInspection
         return entityManager.createQuery("select r from Role r where r.authority = :authority", Role.class)
                 .setParameter("authority", name)
                 .getSingleResult();

@@ -25,7 +25,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Autowired
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     private EntityManager entityManager;
 
 
@@ -46,6 +48,7 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         logger.debug("Finding user by email: {}", email);
 
+        //noinspection JpaQlInspection
         User foundUser = entityManager.createQuery("select u from User u where u.email = :email", User.class)
                 .setParameter("email", email)
                 .getSingleResult();
