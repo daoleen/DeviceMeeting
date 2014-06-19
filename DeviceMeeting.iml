@@ -7,6 +7,15 @@
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/spring-context.xml</file>
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/secutiry.xml</file>
         </fileset>
+        <fileset id="fileset2" name="Spring Application Context (2)" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/database-h2.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/features/locale.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/features/security.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/context/servlet-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/context/spring-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/features/theme.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/features/thymeleaf.xml</file>
+        </fileset>
       </configuration>
     </facet>
     <facet type="web" name="Web Gradle : DeviceMeeting-1.0.war">

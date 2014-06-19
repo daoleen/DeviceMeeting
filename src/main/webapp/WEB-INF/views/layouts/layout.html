@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content=""/>
@@ -38,12 +38,14 @@
         <h3 class="text-muted">DeviceMeeting</h3>
         <ul class="nav nav-justified">
             <li class="active"><a href="layout.xhtml" th:href="@{/}" th:text="#{label.home}">Home</a></li>
-            <li sec:authorize="isAnonymous()"><a href="#signin" th:href="@{/account/signin}" th:text="#{label.signin}">Sign in</a></li>
-            <li sec:authorize="isAnonymous()"><a href="#reg" th:href="@{/account/signup}" th:text="#{form.auth.label.registration}">Registration</a></li>
+            <li sec:authorize="isAnonymous()"><a href="#signin" th:href="@{/account/signin}" th:text="#{label.signin}">Sign
+                in</a></li>
+            <li sec:authorize="isAnonymous()"><a href="#reg" th:href="@{/account/signup}"
+                                                 th:text="#{form.auth.label.registration}">Registration</a></li>
             <li><a href="#about" th:href="@{/about}" th:text="#{label.about}">About</a></li>
             <li sec:authorize="isAuthenticated()">
                 <div>
-                    <a href="#profile">
+                    <a th:href="@{/account/{id}(id=${#authentication.id})}">
                         <span sec:authentication="name">username</span>
                     </a>
                     (<a href="#logout" th:href="@{/account/logout}" th:text="#{label.logout}">Logout</a>)
@@ -52,7 +54,7 @@
             <li id="nav_search">
                 <form action="#search" method="post" class="form-inline">
                     <input type="text" name="keyword" id="input_keyword_search" class="form-control"
-                           value="search..." th:value="#{label.search}+'...'" />
+                           value="search..." th:value="#{label.search}+'...'"/>
                 </form>
             </li>
             <li id="nav_language">
@@ -71,13 +73,13 @@
     </div>
 
 
-
     <div layout:fragment="content">
         <!-- Jumbotron -->
         <div class="jumbotron">
             <h1 class="slogan_head">Lets create a Real-Time Brain Storm just here, right now!</h1>
 
-            <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
+            <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus
+                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
 
             <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
         </div>
@@ -86,29 +88,41 @@
         <div class="row">
             <div class="col-lg-4">
                 <h2>Safari bug warning!</h2>
-                <p class="text-danger">As of v7.0.1, Safari exhibits a bug in which resizing your browser horizontally causes rendering errors in the justified nav that are cleared upon refreshing.</p>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+
+                <p class="text-danger">As of v7.0.1, Safari exhibits a bug in which resizing your browser horizontally
+                    causes rendering errors in the justified nav that are cleared upon refreshing.</p>
+
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
+                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
+                    mollis euismod. Donec sed odio dui. </p>
+
                 <p><a class="btn btn-primary" href="#" role="button">View details</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Heading</h2>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
+                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
+                    mollis euismod. Donec sed odio dui. </p>
+
                 <p><a class="btn btn-primary" href="#" role="button">View details</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
+                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+                    ut fermentum massa.</p>
+
                 <p><a class="btn btn-primary" href="#" role="button">View details</a></p>
             </div>
         </div>
     </div>
 
 
-
-
     <!-- Site footer -->
     <div class="footer">
-        <p><![CDATA[&copy;]]> Company 2014</p>
+        <p>Company&copy; 2014</p>
     </div>
 
 </div>

@@ -1,0 +1,26 @@
+#signinForm {
+    width: 50%;
+    margin: 5% auto;
+    padding: 3%;
+    border: 1px solid #cccccc;
+}
+
+#signinForm h2 {
+    margin: 0 35%;
+    margin-bottom: 5%;
+}
+
+.formInput > td {
+    padding: 3% 10px;
+}
+
+.formInput .lbl {
+    width: 40%;
+}
+
+#btnSignup {
+    width: 40%;
+    margin-left: 50%;
+    margin-top: 5%;
+    margin-bottom: 0;
+}

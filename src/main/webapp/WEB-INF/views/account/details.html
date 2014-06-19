@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorator="layouts/layout">
+
+<head>
+    <title>${user.email}</title>
+</head>
+
+<body>
+
+<div layout:fragment="content" th:object="${user}">
+
+    <div th:unless="${user}">
+        <b th:text="#{label.notice.notfound.user}">Sorry, this user is not found</b>
+    </div>
+
+    <div th:if="${user}" th:remove="tag">
+        <h2 th:text="#{page.account.details.title(*{email})}">Hello, $username</h2>
+
+        <table>
+            <tr>
+                <td th:text="#{form.auth.label.email}">Email</td>
+                <td th:text="*{email}">Email</td>
+            </tr>
+            <tr>
+                <td th:text="#{form.auth.label.is_enabled}">Is Enabled</td>
+                <td>
+                    <span th:text="(*{enabled} ? #{form.auth.label.is_enabled.enabled} : #{form.auth.label.is_enabled.disabled})">Yes</span>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{label.created}">Creation date</td>
+                <td th:text="*{createdAt}">2012-02-12</td>
+            </tr>
+            <tr>
+                <td th:text="#{label.expires}">Expires</td>
+                <td th:text="*{expiresAt}">2012-02-12</td>
+            </tr>
+            <tr th:if="*{locked}">
+                <td th:text="#{label.notice.locked}"></td>
+                <td th:text="*{lockedReason}"></td>
+            </tr>
+            <tr>
+                <td>User roles</td>
+                <td>
+                    <p th:each="role : ${user.roles}" th:text="${role.authority}">Role name</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

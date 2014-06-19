@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorator="layouts/layout">
+
+<head>
+    <title th:text="#{form.auth.label.registration}">Signup</title>
+
+    <link rel="stylesheet" type="text/css" href="../../resources/css/account/signup.css"
+          th:href="@{/resources/css/account/signup.css}"/>
+
+    <!--/*-->
+    <link href="../../resources/css/bootstrap.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/bootstrap-theme.css"/>
+    <!--*/-->
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <form id="signinForm" action="#signup" th:action="@{/account/signup}" th:object="${account}" method="post">
+        <h2 th:text="#{form.auth.label.registration}">SignUp</h2>
+        <table>
+            <tr class="formInput">
+                <td class="lbl"><label th:for="${#ids.next('email')}" th:text="#{form.auth.label.email}"
+                                       class="control-label">Email</label></td>
+                <td><input type="text" th:field="*{email}" class="form-control"/></td>
+                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert-danger"></td>
+            </tr>
+            <tr class="formInput">
+                <td class="lbl"><label th:for="${#ids.next('passwords.password')}" th:text="#{form.auth.label.password}"
+                                       class="control-label">Password</label></td>
+                <td><input type="password" th:field="*{passwords.password}" class="form-control"/></td>
+                <td th:if="${#fields.hasErrors('passwords')}" th:errors="*{passwords}" class="alert-danger"></td>
+            </tr>
+            <tr class="formInput">
+                <td class="lbl"><label th:for="${#ids.next('passwords.passwordAgain')}"
+                                       th:text="#{form.auth.label.passwordAgain}" class="control-label">Password
+                    again</label></td>
+                <td><input type="password" th:field="*{passwords.passwordAgain}" class="form-control"/></td>
+                <td th:if="${#fields.hasErrors('passwords.passwordAgain')}" th:errors="*{passwords.passwordAgain}"
+                    class="alert-danger"></td>
+            </tr>
+            <tr class="formInput">
+                <td colspan="3">
+                    <input type="submit" id="btnSignup" value="Signup" th:value="#{form.auth.label.registration}"
+                           class="btn-warning"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>
