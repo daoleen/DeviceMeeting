@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+<body>
+<div th:fragment="signin">
+    <link type="text/css" rel="stylesheet" th:href="@{/resources/css/account/signin-form.css}" />
+    <form id="signinForm" action="#" th:action="@{/account/signin}" method="post">
+        <h2 th:text="#{label.signin}">SignIn</h2>
+        <table>
+            <tr class="formInput">
+                <td th:text="#{form.auth.label.email}">Email</td>
+                <td><input type="text" name="email" size="10" class="form-control"/></td>
+            </tr>
+            <tr class="formInput">
+                <td th:text="#{form.auth.label.password}">Password</td>
+                <td><input type="password" name="password" size="10" class="form-control"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input id="remember_me" name="remember_me" type="checkbox"/>
+                    <label for="remember_me" th:text="#{form.auth.label.remember}">Remember me</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Authorize" th:value="#{label.authorize}"
+                                       class="btn-success"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

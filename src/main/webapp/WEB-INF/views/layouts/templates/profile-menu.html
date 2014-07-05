@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+<body>
+<div th:fragment="profileMenu">
+    <link type="text/css" rel="stylesheet" th:href="${#themes.code('theme.css.profileMenu')}" />
+
+    <div id="profile-menu">
+        <div class="userifno_block">
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <a th:href="@{/account/{id}(id=${#authentication.id})}">
+                            <span sec:authentication="principal.email">username</span>
+                        </a>
+                        (<a href="#logout" th:href="@{/account/logout}" th:text="#{label.logout}">Logout</a>)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}" />
+                    </td>
+                    <td>
+                        <ul id="profile-menu-list">
+                            <li class="profile-menu-item">Home</li>
+                            <li class="profile-menu-item">Menu</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

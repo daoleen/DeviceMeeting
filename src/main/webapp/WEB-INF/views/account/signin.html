@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns="http://www.w3.org/1999/xhtml"
-      layout:decorator="layouts/layout">
+      layout:decorator="layouts/layout-main">
 
 <head>
     <title>#{'label.signin'}</title>
@@ -14,28 +14,7 @@
 <div layout:fragment="content">
     <div id="error" th:if="${fail}" th:text="#{label.notice.signin.error}"></div>
 
-    <form id="signinForm" action="#" th:action="@{/account/signin}" method="post">
-        <table>
-            <tr class="formInput">
-                <td th:text="#{form.auth.label.email}">Email</td>
-                <td><input type="text" name="email" size="10" class="form-control"/></td>
-            </tr>
-            <tr class="formInput">
-                <td th:text="#{form.auth.label.password}">Password</td>
-                <td><input type="password" name="password" size="10" class="form-control"/></td>
-            </tr>
-            <!--<tr>-->
-            <!--<td colspan="2">-->
-            <!--<input id="remember_me" name="remember_me" type="checkbox" />-->
-            <!--<label for="rememer_me" th:text="#{form.auth.label.remember}">Remember me</label>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <tr>
-                <td colspan="2"><input type="submit" value="Authorize" th:value="#{label.authorize}"
-                                       class="btn-success"/></td>
-            </tr>
-        </table>
-    </form>
+    <div id="signin" th:include="layouts/templates/signin-form::signin" />
 </div>
 
 </body>

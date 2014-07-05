@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -22,8 +23,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
-    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override

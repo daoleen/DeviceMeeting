@@ -1,11 +1,11 @@
-#signinForm {
+#signupForm {
     width: 50%;
     margin: 5% auto;
     padding: 3%;
     border: 1px solid #cccccc;
 }
 
-#signinForm h2 {
+#signupForm h2 {
     margin: 0 35%;
     margin-bottom: 5%;
 }
@@ -20,7 +20,7 @@
 
 #btnSignup {
     width: 40%;
-    margin-left: 50%;
+    margin-left: 30%;
     margin-top: 5%;
     margin-bottom: 0;
 }

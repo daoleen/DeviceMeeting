@@ -1,10 +1,6 @@
-#signinForm {
+#signin {
     width: 30%;
     margin: 5% auto;
     padding: 3%;
     border: 1px solid #cccccc;
-}
-
-.formInput > td {
-    padding: 3% 10px;
 }

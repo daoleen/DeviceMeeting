@@ -66,6 +66,7 @@ public class AccountController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST, params = {"email", "password"})
     public String signin(@RequestParam("email") String email, @RequestParam("password") String password,
+                         @RequestParam(value = "remember_me", required = false, defaultValue = "false") boolean remember_me,
                          RedirectAttributes redirectAttributes, Locale locale) {
         logger.debug("Retrieved params: {} and {}", email, password);
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -81,6 +82,11 @@ public class AccountController {
 
         //Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         Authentication authentication = new MyAuthenticationToken(user);
+
+        if(remember_me) {
+            logger.warn("TODO: Remember_Me feature...");
+            // TODO: remember me feature
+        }
 
         securityContext.setAuthentication(authentication);
         logger.debug("User has been successfully done authentication test");

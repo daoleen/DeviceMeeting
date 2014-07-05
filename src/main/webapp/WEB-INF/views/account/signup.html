@@ -20,7 +20,7 @@
 
 <div layout:fragment="content">
 
-    <form id="signinForm" action="#signup" th:action="@{/account/signup}" th:object="${account}" method="post">
+    <form id="signupForm" action="#signup" th:action="@{/account/signup}" th:object="${account}" method="post">
         <h2 th:text="#{form.auth.label.registration}">SignUp</h2>
         <table>
             <tr class="formInput">

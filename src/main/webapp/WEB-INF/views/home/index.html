@@ -3,7 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layouts/layout">
+      layout:decorator="layouts/layout-main">
 
 <head>
     <title>Welcome</title>
@@ -16,7 +16,7 @@
     <link href="../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet"
           type="text/css"/>
 
-    <link href="../../resources/themes/standard/css/layout.css" th:href="${#themes.code('theme.css.layout')}"
+    <link href="../../resources/themes/standard/css/layout-main.css" th:href="${#themes.code('theme.css.layout')}"
           rel="stylesheet" type="text/css"/>
     <!--*/-->
 </head>
@@ -28,7 +28,7 @@
     <div class="masthead">
         <h3 class="text-muted">DeviceMeeting</h3>
         <ul class="nav nav-justified">
-            <li class="active"><a href="../layouts/layout.html" th:href="@{/}" th:text="#{label.home}">Home</a></li>
+            <li class="active"><a href="../layouts/layout-main.html" th:href="@{/}" th:text="#{label.home}">Home</a></li>
             <li><a href="#about" th:href="@{/about}" th:text="#{label.about}">About</a></li>
             <li><a href="#signin" th:href="@{/signin}" th:text="#{label.signin}">Sign in</a></li>
             <li><a href="#reg" th:href="@{/registration}" th:text="#{form.auth.label.registration}">Registration</a>

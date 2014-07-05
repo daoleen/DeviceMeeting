@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+<body>
+<div th:fragment="navigation">
+    <ul class="nav nav-justified">
+        <li class="active"><a href="layout.xhtml" th:href="@{/}" th:text="#{label.home}">Home</a></li>
+        <li sec:authorize="isAnonymous()"><a href="#signin" th:href="@{/account/signin}" th:text="#{label.signin}">Sign
+            in</a></li>
+        <li sec:authorize="isAnonymous()"><a href="#reg" th:href="@{/account/signup}"
+                                             th:text="#{form.auth.label.registration}">Registration</a></li>
+        <li><a href="#about" th:href="@{/about}" th:text="#{label.about}">About</a></li>
+        <li sec:authorize="isAuthenticated()">
+            <div class="userifno_block">
+                <a th:href="@{/account/{id}(id=${#authentication.id})}">
+                    <span sec:authentication="name">username</span>
+                </a>
+                (<a href="#logout" th:href="@{/account/logout}" th:text="#{label.logout}">Logout</a>)
+            </div>
+        </li>
+        <li id="nav_search">
+            <form action="#search" method="post" class="form-inline">
+                <input type="text" name="keyword" id="input_keyword_search" class="form-control"
+                       value="search..." th:value="#{label.search}+'...'"/>
+            </form>
+        </li>
+        <li id="nav_language">
+            <div class="form-inline">
+                <a href="?lang=ru_RU">
+                    <img src="../../../resources/images/ru.png" th:src="@{/resources/images/ru.png}"
+                         class="language_img"/>
+                </a>
+                <a href="?lang=en_US">
+                    <img src="../../../resources/images/us.png" th:src="@{/resources/images/us.png}"
+                         class="language_img"/>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

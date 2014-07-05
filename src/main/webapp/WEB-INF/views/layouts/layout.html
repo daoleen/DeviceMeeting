@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <meta charset="UTF-8"/>
@@ -36,97 +35,22 @@
 
     <div class="masthead">
         <h3 class="text-muted">DeviceMeeting</h3>
-        <ul class="nav nav-justified">
-            <li class="active"><a href="layout.xhtml" th:href="@{/}" th:text="#{label.home}">Home</a></li>
-            <li sec:authorize="isAnonymous()"><a href="#signin" th:href="@{/account/signin}" th:text="#{label.signin}">Sign
-                in</a></li>
-            <li sec:authorize="isAnonymous()"><a href="#reg" th:href="@{/account/signup}"
-                                                 th:text="#{form.auth.label.registration}">Registration</a></li>
-            <li><a href="#about" th:href="@{/about}" th:text="#{label.about}">About</a></li>
-            <li sec:authorize="isAuthenticated()">
-                <div>
-                    <a th:href="@{/account/{id}(id=${#authentication.id})}">
-                        <span sec:authentication="name">username</span>
-                    </a>
-                    (<a href="#logout" th:href="@{/account/logout}" th:text="#{label.logout}">Logout</a>)
-                </div>
-            </li>
-            <li id="nav_search">
-                <form action="#search" method="post" class="form-inline">
-                    <input type="text" name="keyword" id="input_keyword_search" class="form-control"
-                           value="search..." th:value="#{label.search}+'...'"/>
-                </form>
-            </li>
-            <li id="nav_language">
-                <div class="form-inline">
-                    <a href="?lang=ru_RU">
-                        <img src="../../resources/images/ru.png" th:src="@{/resources/images/ru.png}"
-                             class="language_img"/>
-                    </a>
-                    <a href="?lang=en_US">
-                        <img src="../../resources/images/us.png" th:src="@{/resources/images/us.png}"
-                             class="language_img"/>
-                    </a>
-                </div>
-            </li>
-        </ul>
+        <div th:replace="layouts/templates/navigation::navigation" />
     </div>
 
-
-    <div layout:fragment="content">
-        <!-- Jumbotron -->
-        <div class="jumbotron">
-            <h1 class="slogan_head">Lets create a Real-Time Brain Storm just here, right now!</h1>
-
-            <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus
-                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
-
-            <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
-        </div>
-
-        <!-- Example row of columns -->
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Safari bug warning!</h2>
-
-                <p class="text-danger">As of v7.0.1, Safari exhibits a bug in which resizing your browser horizontally
-                    causes rendering errors in the justified nav that are cleared upon refreshing.</p>
-
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
-                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
-                    mollis euismod. Donec sed odio dui. </p>
-
-                <p><a class="btn btn-primary" href="#" role="button">View details</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
-                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
-                    mollis euismod. Donec sed odio dui. </p>
-
-                <p><a class="btn btn-primary" href="#" role="button">View details</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-                    ut fermentum massa.</p>
-
-                <p><a class="btn btn-primary" href="#" role="button">View details</a></p>
-            </div>
-        </div>
+    <div id="content" layout:fragment="content">
+        <!-- content -->
     </div>
 
+    <!-- Right side menu -->
+    <div th:replace="layouts/templates/right-side-menu::rightmenu" />
+
+    <div class="clear"></div>
 
     <!-- Site footer -->
-    <div class="footer">
-        <p>Company&copy; 2014</p>
-    </div>
+    <div th:replace="layouts/templates/footer::footer" />
 
-</div>
-<!-- /container -->
+</div><!-- /container -->
 
 
 </body>

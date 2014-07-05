@@ -1,0 +1,17 @@
+#profile-menu {
+}
+
+#profile-menu-list {
+    margin: 0 3%;
+    padding: 0;
+}
+
+.profile-menu-item {
+    display: inline;
+    margin-right: 5%;
+}
+
+.userAvatar {
+    width: 74px;
+    height: 70px;
+}

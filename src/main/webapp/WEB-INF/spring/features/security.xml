@@ -27,7 +27,7 @@
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/account/login" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_USER')"/>
         <intercept-url pattern="/account/logout" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_USER')"/>
-        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN') and fullyAuthenticated"/>
         <!--<intercept-url pattern="/WEB-INF/resources/css/account" access="ROLE_USER" />-->
 
         <!-- default-target-url="/account/profile" - перенаправляет юзера после удачной авторизации
@@ -35,7 +35,10 @@
         в котором сделать редирект на профиль (костыль)
         -->
         <form-login login-page="/account/signin"/>
-        <logout logout-url="/account/logout"/>
+        <logout logout-url="/account/logout" logout-success-url="/" />
+        <remember-me key="deviceMeeting-djahsd37r73trgrhgc489ry84iurhhuy47fhsf4=-4fu"
+                     token-validity-seconds="1209600"
+                     user-service-ref="myUserDetailsService" />
     </http>
 
 
@@ -74,5 +77,8 @@
 
     <beans:bean id="myUserDetailsService" class="com.daoleen.devicemeeting.web.infrastructure.MyUserDetailsService"/>
     <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
+    <beans:bean id="rememberMeAuthProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+        <beans:property name="key" value="ddd" />
+    </beans:bean>
 
 </beans:beans>

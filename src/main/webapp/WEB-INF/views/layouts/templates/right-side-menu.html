@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+<body>
+<div id="right-side-menu" th:fragment="rightmenu">
+    <link type="text/css" rel="stylesheet" th:href="@{${#themes.code('theme.css.rightSideMenu')}}" />
+
+    <div sec:authorize="isAuthenticated()" th:include="layouts/templates/profile-menu::profileMenu" />
+    <div sec:authorize="isAnonymous()" th:include="layouts/templates/signin-form::signin" />
+</div>
+</body>
+</html>
