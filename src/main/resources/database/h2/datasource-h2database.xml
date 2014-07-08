@@ -17,16 +17,6 @@
         <property name="password" value=""/>
     </bean>
 
-    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
-        <jdbc:script location="classpath:database/h2/sql/schema/roles.sql"/>
-        <jdbc:script location="classpath:database/h2/sql/schema/users.sql"/>
-        <jdbc:script location="classpath:database/h2/sql/schema/user_role_refs.sql"/>
-
-        <jdbc:script location="classpath:database/h2/sql/data/roles.sql"/>
-        <jdbc:script location="classpath:database/h2/sql/data/users.sql"/>
-        <jdbc:script location="classpath:database/h2/sql/data/user_role_refs.sql"/>
-    </jdbc:initialize-database>
-
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
