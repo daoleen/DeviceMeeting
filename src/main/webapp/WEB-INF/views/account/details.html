@@ -23,21 +23,43 @@
         <table class="panel panel-default table-user-details">
             <tr>
                 <td class="user-param-td avatar-td">
-                    <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}"/><br/>
-                    <a class="label label-default" href="#">
-                        Upload a new
-                    </a>
+                    <div id="user-name-avatar">
+                        <h4>Alexander Kozlov</h4>
+                        <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}"/><br/>
+                        <a class="label label-default" href="#">
+                            Upload a new
+                        </a>
+                    </div>
                 </td>
                 <td>
                     <table class="table table-bordered">
                         <tr>
-                            <td th:text="*{email}">Email</td>
-                            <td>
-                                <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
-                                <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
-                                <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
-                                <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
-                                <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
+                            <!--<td>-->
+                            <!--Stalker-->
+                            <!--<span th:text="*{email}">Email</span>-->
+                            <!--</td>-->
+                            <td colspan="2">
+                                <div id="user-social-block">
+                                    <div id="is-online-status">
+                                        <img class="is-online-icon" th:src="@{/resources/images/online.gif}"/>
+                                        <span>Offline</span>
+                                    </div>
+
+                                    <div id="user-rating">
+                                        <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
+                                        <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
+                                        <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
+                                        <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
+                                        <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
+                                    </div>
+
+                                    <div id="user-social-contacts">
+                                        <img class="social-contact-image" th:src="@{/resources/images/letter.png}"/>
+                                        <img class="social-contact-image" th:src="@{/resources/images/skype.png}"/>
+                                        <img class="social-contact-image" th:src="@{/resources/images/linkedin.png}"/>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -48,6 +70,16 @@
                             <td th:text="#{label.expires}">expires date</td>
                             <td th:text="*{expiresAt}">expires date</td>
                         </tr>
+                        <tr>
+                            <td>ABOOOUT</td>
+                            <td>
+                                Unquestionably a versatile tool for programmers, you don’t need to be one in order to
+                                use Sublime Text, or even to configure it extensively. If you’re a hacker, however, you
+                                are in for a great many pleasant surprises: Sublime Text can be infinitely customized
+                                and extended. You can start using it efficiently out of the box, but spending some time
+                                tailoring it to your exact needs will make it even better.
+                            </td>
+                        </tr>
                     </table>
                 </td>
             </tr>
@@ -55,68 +87,42 @@
 
         <div id="user-content">
 
-            <div id="user-additional-info">
-                <table>
-                    <!--/*-->
-                    <tr>
-                        <td th:text="#{form.auth.label.is_enabled}">Is Enabled</td>
-                        <td>
-                            <span th:text="(*{enabled} ? #{form.auth.label.is_enabled.enabled} : #{form.auth.label.is_enabled.disabled})">Yes</span>
-                        </td>
-                    </tr>
-                    <!--*/-->
-                    <tr th:if="*{locked}">
-                        <td th:text="#{label.notice.locked}"></td>
-                        <td th:text="*{lockedReason}"></td>
-                    </tr>
-                    <!--/*-->
-                    <tr>
-                        <td>User roles</td>
-                        <td>
-                            <p th:each="role : ${user.roles}" th:text="${role.authority}">Role name</p>
-                        </td>
-                    </tr>
-                    <!--*/-->
-                    <tr>
-                        <td colspan="2">
-                            <h4>Alexander Kozlov</h4>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="user-additional-param-td">Skype</td>
-                        <td>
-                            <img th:src="@{/resources/images/skype.png}"/>
-                            alexssource
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Linkedin</td>
-                        <td>
-                            <img th:src="@{/resources/images/linkedin.png}"/>
-                            linkedin.link.com
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Conference activity</td>
-                        <td>500</td>
-                    </tr>
-                    <tr>
-                        <td>Owned rooms</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>About</td>
-                        <td>
-                            I am ...
-                        </td>
-                    </tr>
-                </table>
+            <div id="user-additional-info" class="panel panel-default">
+                <div class="panel-heading">Conference activity</div>
+                <div class="panel-body">
+                    <div class="presentation">
+                        <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
+                        <span>Here I plan to put a last saw conferences</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="presentation">
+                        <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
+                        <span>Here I plan to put a last saw conferences</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="presentation">
+                        <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
+                        <span>Here I plan to put a last saw conferences</span>
+                    </div>
+                    <div class="clear"></div>
+                    <a href="#" class="btn btn-success additional-info-more-btn">See More</a>
+                </div>
             </div>
 
             <div id="user-other-info" class="panel panel-default">
                 <div class="panel-heading">USER OTHER INFO</div>
                 <div class="panel-body">
-                    Here I plan to put a last saw conferences
+                    <div class="presentation">
+                        <img class="presentation-icon" th:src="@{/resources/images/presentation.png}"/>
+                        <span>Here I plan to put a last saw conferences</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="presentation">
+                        <img class="presentation-icon" th:src="@{/resources/images/presentation.png}"/>
+                        <span>Here I plan to put a last saw conferences</span>
+                    </div>
+                    <div class="clear"></div>
+                    <a href="#" class="btn btn-success additional-info-more-btn">See More</a>
                 </div>
             </div>
             <div class="clear"></div>
