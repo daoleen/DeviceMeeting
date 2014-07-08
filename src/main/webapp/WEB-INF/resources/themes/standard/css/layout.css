@@ -171,8 +171,12 @@ body {
     width: 90%;
 }
 
-.userifno_block {
-    padding-left: 5px;
+.lang-block {
+    text-align: center;
+}
+
+.link-button-hover:hover {
+    text-decoration: none;
 }
 
 #content {

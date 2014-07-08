@@ -54,11 +54,13 @@
                     </tr>
                     <tr>
                         <td colspan="2" id="menu-buttons">
-                            <a th:href="@{/account/{id}(id=${#authentication.id})}">
-                                <button id="profile-menu-details-btn" class="btn-primary">View details</button>
+                            <a class="link-button-hover" th:href="@{/account/{id}(id=${#authentication.id})}">
+                                <button id="profile-menu-details-btn" class="btn-primary link-button-hover">View
+                                    details
+                                </button>
                             </a>
 
-                            <a href="#logout" th:href="@{/account/logout}">
+                            <a href="#logout" class="link-button-hover" th:href="@{/account/logout}">
                                 <button id="profile-menu-logout-btn" class="btn-danger">Logout</button>
                             </a>
                         </td>

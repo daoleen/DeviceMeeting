@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 </head>
@@ -14,14 +14,7 @@
         <li sec:authorize="isAnonymous()"><a href="#reg" th:href="@{/account/signup}"
                                              th:text="#{form.auth.label.registration}">Registration</a></li>
         <li><a href="#about" th:href="@{/about}" th:text="#{label.about}">About</a></li>
-        <li sec:authorize="isAuthenticated()">
-            <div class="userifno_block">
-                <a th:href="@{/account/{id}(id=${#authentication.id})}">
-                    <span sec:authentication="name">username</span>
-                </a>
-                (<a href="#logout" th:href="@{/account/logout}" th:text="#{label.logout}">Logout</a>)
-            </div>
-        </li>
+
         <li id="nav_search">
             <form action="#search" method="post" class="form-inline">
                 <input type="text" name="keyword" id="input_keyword_search" class="form-control"
@@ -29,14 +22,24 @@
             </form>
         </li>
         <li id="nav_language">
-            <div class="form-inline">
-                <a href="?lang=ru_RU">
+            <div class="form-inline lang-block">
+                <a href="?lang=ru_RU" class="link-button-hover">
                     <img src="../../../resources/images/ru.png" th:src="@{/resources/images/ru.png}"
                          class="language_img"/>
                 </a>
-                <a href="?lang=en_US">
+                <a href="?lang=en_US" class="link-button-hover">
                     <img src="../../../resources/images/us.png" th:src="@{/resources/images/us.png}"
                          class="language_img"/>
+                </a>
+            </div>
+        </li>
+        <li style="width: 0.3%" sec:authorize="isAuthenticated()">
+            <div class="form-inline">
+                <a class="link-button-hover" href="#" th:href="@{/account/{id}(id=${#authentication.id})}">
+                    <button class="btn-success">Profile</button>
+                </a>
+                <a class="link-button-hover" href="#" th:href="@{/account/logout}">
+                    <button class="btn-primary">Logout</button>
                 </a>
             </div>
         </li>
