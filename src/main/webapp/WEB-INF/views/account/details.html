@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress HtmlUnknownAttribute -->
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns="http://www.w3.org/1999/xhtml"
@@ -63,7 +64,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td th:text="#{label.created}">creation date</td>
+                            <td class="user-param-td" th:text="#{label.created}">creation date</td>
                             <td th:text="*{createdAt}">created date</td>
                         </tr>
                         <tr>
