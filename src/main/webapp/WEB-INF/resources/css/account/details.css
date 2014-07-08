@@ -1,0 +1,16 @@
+.table-user-details {
+    width: 95%;
+    margin: 3% auto;
+}
+
+.table-user-details td {
+    padding: 1%;
+}
+
+.user-param-td {
+    width: 20%;
+}
+
+.avatar-td {
+    text-align: center;
+}

@@ -6,6 +6,7 @@
 
 <head>
     <title>${user.email}</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/resources/css/account/details.css}"/>
 </head>
 
 <body>
@@ -17,35 +18,93 @@
     </div>
 
     <div th:if="${user}" th:remove="tag">
-        <h2 th:text="#{page.account.details.title(*{email})}">Hello, $username</h2>
+        <!--<h2 th:text="#{page.account.details.title(*{email})}">Hello, $username</h2>-->
+
+        <table class="panel panel-default table-user-details">
+            <tr>
+                <td class="user-param-td avatar-td">
+                    <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}"/><br/>
+                    <a class="label label-default" href="#">
+                        Upload a new
+                    </a>
+                </td>
+                <td>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td th:text="*{email}">Email</td>
+                            <td>
+                                <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
+                                <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
+                                <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
+                                <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
+                                <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{label.created}">creation date</td>
+                            <td th:text="*{createdAt}">created date</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{label.expires}">expires date</td>
+                            <td th:text="*{expiresAt}">expires date</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
 
         <table>
-            <tr>
-                <td th:text="#{form.auth.label.email}">Email</td>
-                <td th:text="*{email}">Email</td>
-            </tr>
+            <!--/*-->
             <tr>
                 <td th:text="#{form.auth.label.is_enabled}">Is Enabled</td>
                 <td>
                     <span th:text="(*{enabled} ? #{form.auth.label.is_enabled.enabled} : #{form.auth.label.is_enabled.disabled})">Yes</span>
                 </td>
             </tr>
-            <tr>
-                <td th:text="#{label.created}">Creation date</td>
-                <td th:text="*{createdAt}">2012-02-12</td>
-            </tr>
-            <tr>
-                <td th:text="#{label.expires}">Expires</td>
-                <td th:text="*{expiresAt}">2012-02-12</td>
-            </tr>
+            <!--*/-->
             <tr th:if="*{locked}">
                 <td th:text="#{label.notice.locked}"></td>
                 <td th:text="*{lockedReason}"></td>
             </tr>
+            <!--/*-->
             <tr>
                 <td>User roles</td>
                 <td>
                     <p th:each="role : ${user.roles}" th:text="${role.authority}">Role name</p>
+                </td>
+            </tr>
+            <!--*/-->
+            <tr>
+                <td colspan="2">
+                    <h4>Alexander Kozlov</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>Skype</td>
+                <td>
+                    <img th:src="@{/resources/images/skype.png}"/>
+                    alexssource
+                </td>
+            </tr>
+            <tr>
+                <td>Linkedin</td>
+                <td>
+                    <img th:src="@{/resources/images/linkedin.png}"/>
+                    linkedin.link.com
+                </td>
+            </tr>
+            <tr>
+                <td>Conference activity</td>
+                <td>500</td>
+            </tr>
+            <tr>
+                <td>Owned rooms</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>About</td>
+                <td>
+                    I am ...
                 </td>
             </tr>
         </table>
