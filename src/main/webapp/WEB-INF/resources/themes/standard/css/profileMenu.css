@@ -7,8 +7,30 @@
 }
 
 .profile-menu-item {
-    display: inline;
+    display: block;
     margin-right: 5%;
+}
+
+.profile-menu-item a {
+    color: #5b5b5b;
+    text-decoration: none;
+}
+
+.profile-menu-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.invitations-count {
+    color: red;
+}
+
+#menu-buttons {
+    padding-top: 5px;
+}
+
+#profile-menu-logout-btn {
+    margin-left: 5%;
 }
 
 .userAvatar {

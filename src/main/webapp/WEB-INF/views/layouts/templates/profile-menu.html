@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 </head>
 <body>
 <div th:fragment="profileMenu">
-    <link type="text/css" rel="stylesheet" th:href="${#themes.code('theme.css.profileMenu')}" />
+    <link type="text/css" rel="stylesheet" th:href="${#themes.code('theme.css.profileMenu')}"/>
 
     <div id="profile-menu">
         <div class="userifno_block">
@@ -17,18 +17,51 @@
                         <a th:href="@{/account/{id}(id=${#authentication.id})}">
                             <span sec:authentication="principal.email">username</span>
                         </a>
-                        (<a href="#logout" th:href="@{/account/logout}" th:text="#{label.logout}">Logout</a>)
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}" />
+                        <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}"/>
                     </td>
                     <td>
                         <ul id="profile-menu-list">
-                            <li class="profile-menu-item">Home</li>
-                            <li class="profile-menu-item">Menu</li>
+                            <li class="profile-menu-item">
+                                <a href="#">
+                                    <img th:src="@{/resources/images/conference.png}" class="profile-menu-icon"/>
+                                    <span th:text="#{templates.profile-menu.rooms-count}">MyRoomsCount</span>: 3
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#">
+                                    <img th:src="@{/resources/images/create.png}" class="profile-menu-icon"/>
+                                    <span th:text="#{templates.profile-menu.create-room}">Create a new room</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#">
+                                    <img th:src="@{/resources/images/search.png}" class="profile-menu-icon"/>
+                                    <span th:text="#{templates.profile-menu.find-rooms}">Find a room</span>
+                                </a>
+                            </li>
+                            <li class="profile-menu-item">
+                                <a href="#">
+                                    <img th:src="@{/resources/images/lecture.png}" class="profile-menu-icon"/>
+                                    <span th:text="#{templates.profile-menu.invitations}">Invitations</span>:
+                                    <span class="invitations-count">7</span>
+                                </a>
+                            </li>
                         </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="menu-buttons">
+                        <a th:href="@{/account/{id}(id=${#authentication.id})}">
+                            <button id="profile-menu-details-btn" class="btn-primary">View details</button>
+                        </a>
+
+                        <a href="#logout" th:href="@{/account/logout}">
+                            <button id="profile-menu-logout-btn" class="btn-danger">Logout</button>
+                        </a>
                     </td>
                 </tr>
             </table>
