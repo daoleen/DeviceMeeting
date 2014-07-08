@@ -14,3 +14,22 @@
 .avatar-td {
     text-align: center;
 }
+
+#user-content {
+    width: 95%;
+    margin: 3% auto;
+}
+
+.user-additional-param-td {
+    width: 55%;
+}
+
+#user-additional-info {
+    width: 60%;
+    float: left;
+}
+
+#user-other-info {
+    width: 40%;
+    float: right;
+}
