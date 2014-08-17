@@ -7,7 +7,7 @@
 </head>
 <body>
 <div th:fragment="profileMenu">
-    <link type="text/css" rel="stylesheet" th:href="${#themes.code('theme.css.profileMenu')}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{${#themes.code('theme.css.profileMenu')}}"/>
 
     <div id="profile-menu">
         <div class="userifno_block panel panel-default">
@@ -20,7 +20,7 @@
                 <table>
                     <tr>
                         <td>
-                            <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}"/>
+                            <img class="userAvatar" th:src="@{${#strings.isEmpty(#authentication.principal.avatar) ? '/resources/images/userAvatar.png' : @applicationConfig['user.dir.avatars']+#authentication.principal.avatar }}"/>
                         </td>
                         <td>
                             <ul id="profile-menu-list">

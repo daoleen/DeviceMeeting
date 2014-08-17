@@ -1,5 +1,10 @@
 .idea/*
 .gradle/*
+.classpath
+.project
+.settings/*
 build/*
 out/*
 web.log
+/build/
+/bin/

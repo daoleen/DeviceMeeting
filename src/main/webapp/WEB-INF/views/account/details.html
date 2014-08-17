@@ -2,6 +2,7 @@
 <!--suppress HtmlUnknownAttribute -->
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns="http://www.w3.org/1999/xhtml"
       layout:decorator="layouts/layout">
 
@@ -12,10 +13,10 @@
 
 <body>
 
-<div layout:fragment="content" th:object="${user}">
+<div layout:fragment="content" th:object="${user.userDetails}">
 
     <div th:unless="${user}">
-        <b th:text="#{label.notice.notfound.user}">Sorry, this user is not found</b>
+        <b th:text="#{account.details.user-not-found}">Sorry, this user is not found</b>
     </div>
 
     <div th:if="${user}" th:remove="tag">
@@ -24,10 +25,10 @@
             <tr>
                 <td class="user-param-td avatar-td">
                     <div id="user-name-avatar">
-                        <h4>Alexander Kozlov</h4>
-                        <img class="userAvatar" th:src="@{/resources/images/userAvatar.png}"/><br/>
-                        <a class="label label-default" href="#">
-                            Upload a new
+                        <h4 th:if="${user.userDetails.toString()}" th:text="*{toString()}"></h4>
+                        <img class="userAvatar" th:src="@{${#strings.isEmpty(user.avatar) ? '/resources/images/userAvatar.png' : @applicationConfig['user.dir.avatars']+user.avatar }}"/><br/>
+                        <a class="label label-default" href="#" th:text="#{account.details.button.upload-new-avatar}">
+                            Upload a new avatar
                         </a>
                     </div>
                 </td>
@@ -37,22 +38,27 @@
                             <td colspan="2">
                                 <div id="user-social-block">
                                     <div id="is-online-status">
-                                        <img class="is-online-icon" th:src="@{/resources/images/online.gif}"/>
-                                        <span>Offline</span>
+                                        <img class="is-online-icon" th:src="@{*{online} ? '/resources/images/online.gif' : '/resources/images/offline.gif'}"/>
+                                        <span th:text="#{*{online} ? 'account.details.online' : 'account.details.offline'}">Offline</span>
                                     </div>
 
                                     <div id="user-rating">
-                                        <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
-                                        <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
-                                        <img class="rating_image" th:src="@{/resources/images/full_rating.png}"/>
-                                        <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
-                                        <img class="rating_image" th:src="@{/resources/images/low_rating.png}"/>
+                                        <img th:each="i : ${#numbers.sequence(1, 5)}" class="rating_image"
+                                             th:src="${user.userDetails.rating >= i} ? @{/resources/images/full_rating.png} : @{/resources/images/low_rating.png}" />
                                     </div>
 
                                     <div id="user-social-contacts">
+                                        <a th:href="${#strings.concat('mailto: ', user.email)}">
                                         <img class="social-contact-image" th:src="@{/resources/images/letter.png}"/>
-                                        <img class="social-contact-image" th:src="@{/resources/images/skype.png}"/>
-                                        <img class="social-contact-image" th:src="@{/resources/images/linkedin.png}"/>
+                                            </a>
+
+                                        <a th:unless="*{#strings.isEmpty(skype)}" th:href="*{#strings.concat('skype: ', skype)}">
+                                            <img class="social-contact-image" th:src="@{/resources/images/skype.png}"/>
+                                        </a>
+
+                                        <a th:unless="*{#strings.isEmpty(linkedin)}" th:href="*{#strings.concat('https://www.linkedin.com/profile/view?id=', linkedin)}" target="_blank">
+                                            <img class="social-contact-image" th:src="@{/resources/images/linkedin.png}"/>
+                                        </a>
                                     </div>
                                     <div class="clear"></div>
                                 </div>
@@ -60,21 +66,15 @@
                         </tr>
                         <tr>
                             <td class="user-param-td" th:text="#{label.created}">creation date</td>
-                            <td th:text="*{createdAt}">created date</td>
+                            <td th:text="${{user.createdAt}}">created date</td>
                         </tr>
                         <tr>
                             <td th:text="#{label.expires}">expires date</td>
-                            <td th:text="*{expiresAt}">expires date</td>
+                            <td th:text="${{user.expiresAt}}">expires date</td>
                         </tr>
                         <tr>
-                            <td>ABOOOUT</td>
-                            <td>
-                                Unquestionably a versatile tool for programmers, you don’t need to be one in order to
-                                use Sublime Text, or even to configure it extensively. If you’re a hacker, however, you
-                                are in for a great many pleasant surprises: Sublime Text can be infinitely customized
-                                and extended. You can start using it efficiently out of the box, but spending some time
-                                tailoring it to your exact needs will make it even better.
-                            </td>
+                            <td th:text="#{account.details.about}">ABOOOUT</td>
+                            <td th:text="*{about}"></td>
                         </tr>
                     </table>
                 </td>
@@ -84,29 +84,29 @@
         <div id="user-content">
 
             <div id="user-additional-info" class="panel panel-default">
-                <div class="panel-heading">Conference activity</div>
+                <div class="panel-heading" th:text="#{account.details.conference-activity}">Conference activity</div>
                 <div class="panel-body">
                     <div class="presentation">
                         <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
-                        <span>Here I plan to put a last saw conferences</span>
+                        <span th:text="#{account.details.last-seen-conferences}">Here I plan to put a last saw conferences</span>
                     </div>
                     <div class="clear"></div>
                     <div class="presentation">
                         <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
-                        <span>Here I plan to put a last saw conferences</span>
+                        <span th:text="#{account.details.last-seen-conferences}">Here I plan to put a last saw conferences</span>
                     </div>
                     <div class="clear"></div>
                     <div class="presentation">
                         <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
-                        <span>Here I plan to put a last saw conferences</span>
+                        <span th:text="#{account.details.last-seen-conferences}">Here I plan to put a last saw conferences</span>
                     </div>
                     <div class="clear"></div>
-                    <a href="#" class="btn btn-success additional-info-more-btn">See More</a>
+                    <a href="#" class="btn btn-success additional-info-more-btn" th:text="#{account.details.button.see-more}">See More</a>
                 </div>
             </div>
 
             <div id="user-other-info" class="panel panel-default">
-                <div class="panel-heading">USER OTHER INFO</div>
+                <div class="panel-heading" th:text="#{account.details.my-conferences}">USER OTHER INFO</div>
                 <div class="panel-body">
                     <div class="presentation">
                         <img class="presentation-icon" th:src="@{/resources/images/presentation.png}"/>
@@ -118,11 +118,16 @@
                         <span>Here I plan to put a last saw conferences</span>
                     </div>
                     <div class="clear"></div>
-                    <a href="#" class="btn btn-success additional-info-more-btn">See More</a>
+                    <a href="#" class="btn btn-success additional-info-more-btn" th:text="#{account.details.button.see-more}">See More</a>
                 </div>
             </div>
             <div class="clear"></div>
         </div>
+        
+        <div th:if="${#authentication.principal.id == user.id}">
+        	<a href="#" th:href="@{/account/edit/{id}(id = *{userId})}" th:text="#{account.details.edit-profile}">EDIT PROFILE</a>
+        </div>
+        
     </div>
 </div>
 

@@ -31,7 +31,6 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <!-- Аналог автоматических миграций Entity Framework'a -->
                 <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
                 <prop key="hibernate.max_fetch_depth">3</prop>
                 <prop key="hibernate.jdbc.fetch_size">50</prop>

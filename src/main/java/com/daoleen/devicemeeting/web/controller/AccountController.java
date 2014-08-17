@@ -2,18 +2,25 @@ package com.daoleen.devicemeeting.web.controller;
 
 import com.daoleen.devicemeeting.web.domain.Role;
 import com.daoleen.devicemeeting.web.domain.User;
+import com.daoleen.devicemeeting.web.domain.UserDetails;
+import com.daoleen.devicemeeting.web.exception.ForbiddenAccessException;
 import com.daoleen.devicemeeting.web.infrastructure.MyAuthenticationToken;
 import com.daoleen.devicemeeting.web.service.RoleService;
+import com.daoleen.devicemeeting.web.service.UserDetailsService;
 import com.daoleen.devicemeeting.web.service.UserService;
 import com.daoleen.devicemeeting.web.viewmodel.Account;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,10 +28,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContext;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -44,6 +55,9 @@ public class AccountController {
 
     @Resource(name = "roleService")
     private RoleService roleService;
+
+    @Resource(name = "userDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Resource(name = "messageSource")
     private MessageSource messageSource;
@@ -127,6 +141,10 @@ public class AccountController {
         user.setRoles(roles);
         user = userService.save(user);
 
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUserId(user.getId());
+        userDetailsService.save(userDetails);
+
         redirectAttributes.addFlashAttribute("system_notice",
                 messageSource.getMessage("label.notice.saved", null, locale));
         return String.format("redirect:/account/%d", user.getId());
@@ -142,5 +160,51 @@ public class AccountController {
         User user = userService.findById(id);
         model.addAttribute("user", user);
         return "account/details";
+    }
+    
+    @Secured("ROLE_USER")
+    @RequestMapping(method = RequestMethod.GET, value = "/edit/{id}")
+    public String edit(Model model, @PathVariable("id") Long id) {
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	
+    	if(!user.getId().equals(id)) {
+    		logger.debug("Forbidden access exception: currentUserId = {}, userId = {}", user.getId(), id);
+    		throw new ForbiddenAccessException();
+    	}
+    	
+    	logger.debug("Authentication is: " + user);
+    	
+    	model.addAttribute("userDetails", user.getUserDetails());
+    	return "account/edit";
+    }
+    
+    
+    @Secured("ROLE_USER")
+    @RequestMapping(method = RequestMethod.POST, value = "/edit")
+    public String edit(Model model, @Valid UserDetails userDetails, BindingResult bindingResult,
+    		RedirectAttributes redirectAttributes, Locale locale) {
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	
+    	if(!user.getId().equals(userDetails.getUserId())) {
+    		logger.debug("Forbidden access exception: currentUserId = {}, userId = {}", user.getId(), userDetails.getUserId());
+    		throw new ForbiddenAccessException();
+    	}
+    	
+    	if(!bindingResult.hasErrors()) {
+    		UserDetails updatedDetails = userDetailsService.findById(userDetails.getUserId());
+    		updatedDetails.setFirstName(userDetails.getFirstName());
+    		updatedDetails.setLastName(userDetails.getLastName());
+    		updatedDetails.setAbout(userDetails.getAbout());
+    		updatedDetails.setLinkedin(userDetails.getLinkedin());
+    		updatedDetails.setSkype(userDetails.getSkype());
+    		userDetailsService.save(updatedDetails);
+    		
+    		redirectAttributes.addFlashAttribute("system_notice", messageSource.getMessage("label.notice.saved", null, locale));
+    		return String.format("redirect:/account/%d", userDetails.getUserId());
+    	}
+    	
+    	redirectAttributes.addFlashAttribute("system_notice", messageSource.getMessage("label.notice.error", null, locale));
+    	model.addAttribute("userDetails", userDetails);
+    	return "account/edit";
     }
 }

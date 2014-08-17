@@ -43,12 +43,12 @@ public class User implements Serializable, UserDetails {
     private boolean enabled;
 
     @Column(name = "created_at", nullable = false)
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+    //@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")	// I use a conversion service
     @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime createdAt;
 
     @Column(name = "expires_at", nullable = false)
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+    //@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
     @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime expiresAt;
 
@@ -59,6 +59,9 @@ public class User implements Serializable, UserDetails {
     @Column(name = "locked_reason")
     private String lockedReason;
 
+    @Column(name = "avatar")
+    private String avatar;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role_refs",
@@ -66,6 +69,9 @@ public class User implements Serializable, UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    private com.daoleen.devicemeeting.web.domain.UserDetails userDetails;
 
     public User() {
         enabled = true;
@@ -183,6 +189,21 @@ public class User implements Serializable, UserDetails {
         this.roles = roles;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public com.daoleen.devicemeeting.web.domain.UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(com.daoleen.devicemeeting.web.domain.UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
 
     @Override
     public String toString() {

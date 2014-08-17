@@ -1,6 +1,7 @@
 apply plugin: 'java'
-apply plugin: 'idea'
+apply plugin: 'eclipse'
 apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
 
 sourceCompatibility = 1.8
 version = '1.0'
@@ -53,11 +54,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-idea {
-    module {
-        jdkName = "1.8"
-        downloadJavadoc = true
-        downloadSources = true
-        scopes.PROVIDED.plus += configurations.provided
-    }
-}
+
+eclipse {  
+	classpath {
+	  plusConfigurations += [ configurations.provided ]
+	  downloadSources = true
+	  downloadJavadoc = true
+	}
+  }

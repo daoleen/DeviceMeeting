@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--suppress HtmlUnknownAttribute -->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorator="layouts/layout">
+
+<head>
+    <title>${userDetails}</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/account/edit.css}"/>
+</head>
+
+<body>
+
+<div layout:fragment="content" th:object="${userDetails}">
+
+    <div th:unless="${userDetails}">
+        <b th:text="#{account.details.user-not-found}">Sorry, this user is not found</b>
+    </div>
+    
+    <div th:if="${userDetails}" th:remove="tag">    	
+    	<form id="editForm" th:action="@{/account/edit}" method="post" th:object="${userDetails}">
+    		<h3 th:text="#{account.edit.profile-edit-title}">EDITING PROFILE</h3>
+    		<table>
+    			<tr class="formInput">
+	                <td class="lbl">
+	                	<label th:for="${#ids.next('firstName')}" th:text="#{account.edit.first-name}" class="control-label">First Name</label>
+	                </td>
+	                <td>
+	                	<input type="text" th:field="*{firstName}" class="form-control"/>
+	                </td>
+	                <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert-danger"></td>
+            	</tr>
+    			<tr class="formInput">
+	                <td class="lbl">
+	                	<label th:for="${#ids.next('lastName')}" th:text="#{account.edit.last-name}" class="control-label">Last Name</label>
+	                </td>
+	                <td>
+	                	<input type="text" th:field="*{lastName}" class="form-control"/>
+	                </td>
+	                <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert-danger"></td>
+            	</tr>
+            	<tr class="formInput">
+	                <td class="lbl">
+	                	<label th:for="${#ids.next('about')}" th:text="#{account.edit.about}" class="control-label">About</label>
+	                </td>
+	                <td>
+	                	<textarea th:field="*{about}" class="form-control about-control"></textarea>
+	                </td>
+	                <td th:if="${#fields.hasErrors('about')}" th:errors="*{about}" class="alert-danger"></td>
+            	</tr>
+            	<tr class="formInput">
+	                <td class="lbl">
+	                	<label th:for="${#ids.next('skype')}" class="control-label">skype</label>
+	                </td>
+	                <td>
+	                	<input type="text" th:field="*{skype}" class="form-control"/>
+	                </td>
+	                <td th:if="${#fields.hasErrors('skype')}" th:errors="*{skype}" class="alert-danger"></td>
+            	</tr>
+            	<tr class="formInput">
+	                <td class="lbl">
+	                	<label th:for="${#ids.next('linkedin')}" class="control-label">Linkedin ID</label>
+	                </td>
+	                <td>
+	                	<input type="text" th:field="*{linkedin}" class="form-control"/>
+	                </td>
+	                <td th:if="${#fields.hasErrors('linkedin')}" th:errors="*{linkedin}" class="alert-danger"></td>
+            	</tr>
+            	<input type="hidden" th:field="*{userId}" />
+            	<tr class="formInput">
+                <td colspan="3">
+                    <input type="submit" id="btnEdit" value="Signup" th:value="#{form.auth.label.save}" class="btn-warning"/>
+                </td>
+            </tr>
+    		</table>
+    	</form>
+    </div>
+
+</div>
+
+</body>
+</html>

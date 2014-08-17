@@ -1,0 +1,32 @@
+#editForm {
+    width: 70%;
+    margin: 5% auto;
+    padding: 3%;
+    border: 1px solid #cccccc;
+}
+
+#editForm h3 {
+    margin-top: 0;
+    margin-bottom: 5%;
+}
+
+.formInput > td {
+    padding: 3% 10px;
+}
+
+.form-control {
+	width: 100%;
+}
+
+.formInput .lbl {
+    width: 30%;
+}
+
+#about {
+	height: 100px;
+}
+
+#btnEdit {
+    width: 40%;
+	/*margin: 5% 35%;*/
+}

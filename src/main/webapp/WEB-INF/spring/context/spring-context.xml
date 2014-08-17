@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <util:properties id="applicationConfig" location="classpath:configuration.properties" />
     <import resource="classpath:database/h2/datasource-h2database.xml"/>
     <import resource="../features/security.xml"/>
     <!--<context:component-scan base-package="com.daoleen.devicemeeting.web.service.impl"/>-->
 
     <bean id="userService" class="com.daoleen.devicemeeting.web.service.impl.UserServiceImpl"/>
     <bean id="roleService" class="com.daoleen.devicemeeting.web.service.impl.RoleServiceImpl"/>
+    <bean id="userDetailsService" class="com.daoleen.devicemeeting.web.service.impl.UserDetailsServiceImpl" />
 </beans>

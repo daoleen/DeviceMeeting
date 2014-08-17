@@ -15,7 +15,7 @@
 
     <sec:global-method-security secured-annotations="enabled"/>
 
-    <mvc:annotation-driven validator="validator"/>
+    <mvc:annotation-driven validator="validator" conversion-service="conversionService"/>
     <mvc:default-servlet-handler/>
     <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/"/>
 
@@ -28,6 +28,15 @@
 
     <!-- Поддержка загрузки файлов на сервер -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
+
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="formatters">
+			<set>
+				<bean class="com.daoleen.devicemeeting.web.formatter.LocalDateTimeFormatter" />
+			</set>
+		</property>
+	</bean>
 
 
     <!-- Дополнительные возможности -->

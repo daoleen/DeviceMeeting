@@ -29,5 +29,4 @@
         <property name="contentType" value="text/html; chraset=UTF-8"/>
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
-
 </beans>
