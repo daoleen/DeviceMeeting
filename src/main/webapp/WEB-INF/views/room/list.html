@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"     
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<head>
+    <title th:text="#{room.list.title}">Internalized title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/room/room.css}" />
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+<div id="room-space" class="panel panel-default">
+	<h3 align="center" th:text="#{room.list.title}">List of rooms</h3>
+	
+	<div id="sorting-panel">
+		<div id="sorting">
+			<span th:text="#{room.list.sorting}">Sort by:</span>
+			<a th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', rooms.size).add('sortingField', 'NAME').add('direction',rooms.sort.iterator().next().direction).get('Room', 'list')}}" th:text="#{room.list.sorting.name}" th:class="${(rooms.sort.iterator().next().property == 'name') ? 'link-current-color' : ''}">name</a>
+			<a th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', rooms.size).add('sortingField', 'DATE').add('direction',rooms.sort.iterator().next().direction).get('Room', 'list')}}" th:text="#{room.list.sorting.date}" th:class="${(rooms.sort.iterator().next().property == 'startingAt') ? 'link-current-color' : ''}">date</a>
+			<a th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', rooms.size).add('sortingField', 'POPULARITY').add('direction',rooms.sort.iterator().next().direction).get('Room', 'list')}}" th:text="#{room.list.sorting.popularity}" th:class="${(rooms.sort.iterator().next().property == 'peoplesCount') ? 'link-current-color' : ''}">populatiry</a> 
+			
+			<a th:if="${rooms.sort.iterator().next().direction.toString() == 'ASC'}" th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', rooms.size).add('sortingField', @roomSortingConverter.convertToEntityAttribute(rooms.sort.iterator().next().property)).add('direction','DESC').get('Room', 'list')}}" class="link-sortorder">desc</a>
+			<a th:if="${rooms.sort.iterator().next().direction.toString() == 'DESC'}" th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', rooms.size).add('sortingField', @roomSortingConverter.convertToEntityAttribute(rooms.sort.iterator().next().property)).add('direction','ASC').get('Room', 'list')}}" class="link-sortorder">asc</a>
+		</div>
+		<div id="paging">
+			<span th:text="#{room.list.sorting.showby}">show by:</span> 
+			<a th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', 10).add('sortingField', @roomSortingConverter.convertToEntityAttribute(rooms.sort.iterator().next().property)).add('direction',rooms.sort.iterator().next().direction).get('Room', 'list')}}" th:class="${(rooms.size == 10) ? 'link-current-color' : ''}">10</a>  
+			<a th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', 20).add('sortingField', @roomSortingConverter.convertToEntityAttribute(rooms.sort.iterator().next().property)).add('direction',rooms.sort.iterator().next().direction).get('Room', 'list')}}" th:class="${(rooms.size == 20) ? 'link-current-color' : ''}">20</a> 
+			<a th:href="@{${@urlBuilder.add('page', rooms.number+1).add('pageSize', 30).add('sortingField', @roomSortingConverter.convertToEntityAttribute(rooms.sort.iterator().next().property)).add('direction',rooms.sort.iterator().next().direction).get('Room', 'list')}}" th:class="${(rooms.size == 30) ? 'link-current-color' : ''}">30</a> 
+			<span th:text="#{room.list.sorting.showby.items}">items</span>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+	<div id="rooms-list">
+
+		<div th:each="room : ${rooms}" class="room-item">
+			<div class="room-item-block">
+				<table class="room-table">
+					<tr>
+						<td colspan="2" class="room-name">
+							<a th:href="@{${@urlBuilder.add('id', room.id).get('Room', 'details')}}" th:text="${room.name}">room name</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="room-image">
+							<img th:src="@{/resources/images/conference.png}" />
+						</td>
+						<td class="room-description" th:text="${room.description}">description</td>
+					</tr>
+				</table>
+			</div>
+			<div class="room-item-info">
+				<p class="date" th:text="${{room.startingAt}}">
+					25 July, 2014
+				</p>
+				<p class="time" th:text="${room.startingAt.toLocalTime()}">
+					18:00
+				</p>
+				<p class="join">
+					<a class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.join}">JOIN NOW</a>
+				</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+	
+		<div th:if="${rooms.totalPages > 1}" id="pagination">
+			<a th:each="i : ${#numbers.sequence(1, rooms.totalPages)}" th:href="@{${@urlBuilder.add('page', i).add('pageSize', rooms.size).add('sortingField', @roomSortingConverter.convertToEntityAttribute(rooms.sort.iterator().next().property)).add('direction',rooms.sort.iterator().next().direction).get('Room', 'list')}}" th:text="${i}" 
+				th:class="${i == (rooms.number+1) ? 'pagination-text-selected' : 'pagination-text'}">1</a> 
+		</div>
+	</div>
+</div>
+
+</div>
+
+</body>
+</html>

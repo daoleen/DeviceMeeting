@@ -15,7 +15,12 @@
 
     <sec:global-method-security secured-annotations="enabled"/>
 
-    <mvc:annotation-driven validator="validator" conversion-service="conversionService"/>
+    <mvc:annotation-driven validator="validator" conversion-service="conversionService">
+    	<mvc:argument-resolvers>
+    		<bean class="com.daoleen.devicemeeting.web.infrastructure.RoomPageWebArgumentsResolver"></bean>
+    	</mvc:argument-resolvers>
+    </mvc:annotation-driven>
+    
     <mvc:default-servlet-handler/>
     <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/"/>
 

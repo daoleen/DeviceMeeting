@@ -16,8 +16,8 @@
         <li><a href="#about" th:href="@{/about}" th:text="#{label.about}">About</a></li>
 
         <li id="nav_search">
-            <form action="#search" method="post" class="form-inline">
-                <input type="text" name="keyword" id="input_keyword_search" class="form-control"
+            <form th:action="@{${@urlBuilder.get('Room', 'search')}}" method="get" class="form-inline">
+                <input type="search" name="keywords" id="input_keyword_search" class="form-control"
                        value="search..." th:value="#{label.search}+'...'"/>
             </form>
         </li>

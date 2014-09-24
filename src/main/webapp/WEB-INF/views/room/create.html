@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"     
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<head>
+    <title th:text="#{room.create.title}">Internalized title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/room/room.css}" />
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+	<div id="room-space" class="panel panel-default">
+	<h3 th:text="#{room.create.title}">create a new room</h3>
+	<div th:replace="room/_fragments::form"></div>
+	</div>
+	
+</div>
+
+</body>
+</html>

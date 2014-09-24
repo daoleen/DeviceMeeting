@@ -1,19 +1,33 @@
 package com.daoleen.devicemeeting.web.domain;
 
-import com.daoleen.devicemeeting.web.converter.LocalDateTimePersistenceConverter;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.daoleen.devicemeeting.web.converter.LocalDateTimePersistenceConverter;
 
 /**
  * Created by alex on 17.6.14.
@@ -23,7 +37,7 @@ import java.util.List;
 @Table(name = "users")
 public class User implements Serializable, UserDetails {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -72,6 +86,12 @@ public class User implements Serializable, UserDetails {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private com.daoleen.devicemeeting.web.domain.UserDetails userDetails;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="owner")
+    private List<Room> rooms;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+    private List<Invite> invite;
 
     public User() {
         enabled = true;
@@ -91,9 +111,11 @@ public class User implements Serializable, UserDetails {
         return roles;
     }
 
-
+    @Transient
+	private static final long serialVersionUID = -1704493851101014483L;
+    
     // Getters / Setters
-
+    
     @Override
     public String getPassword() {
         return password;
@@ -204,8 +226,25 @@ public class User implements Serializable, UserDetails {
     public void setUserDetails(com.daoleen.devicemeeting.web.domain.UserDetails userDetails) {
         this.userDetails = userDetails;
     }
+    
 
-    @Override
+    public List<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
+	}
+
+	public List<Invite> getInvite() {
+		return invite;
+	}
+
+	public void setInvite(List<Invite> invite) {
+		this.invite = invite;
+	}
+
+	@Override
     public String toString() {
         return "User{" +
                 "id=" + id +

@@ -190,3 +190,7 @@ body {
     width: 24px;
     height: 24px;
 }
+
+.form-control-error {
+	border: 1px solid #F00;
+}

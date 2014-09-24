@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"     
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<head>
+    <title>Internalized title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/room/room.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/room/details.css}" />
+</head>
+
+<body>
+
+<div layout:fragment="content">
+	<div id="details" class="panel panel-default" th:object="${room}">
+	
+		<table class="room-item-block">
+			<tr>
+				<td class="room-image"><img th:src="@{/resources/images/conference.png}" align="middle" /></td>
+				<td><h3 th:text="*{name}">Details page</h3></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<p th:text="*{description}">description</p>				
+				</td>
+			</tr>
+		</table>
+	
+		<div class="room-item-info">
+				<p class="date" th:text="${{room.startingAt}}">
+					25 July, 2014
+				</p>
+				<p class="time" th:text="${room.startingAt.toLocalTime()}">
+					18:00
+				</p>
+				
+				<p sec:authorize="isAuthenticated()" class="join">
+					<a th:unless="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.join}">JOIN NOW</a>
+					<a th:if="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.swithToPlayer}">Switch to player</a>
+				</p>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+		<div id="presentation">
+			<canvas></canvas>
+		</div>
+	
+</div>
+
+</body>
+</html>

@@ -31,7 +31,22 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring/context/spring-context.xml</param-value>
     </context-param>
+    
+    <!-- 
+    	Включение защиты содержимого отправляемой формы    
+    -->
+    <context-param>
+    	<param-name>defaultHtmlEscape</param-name>
+    	<param-value>true</param-value>
+    </context-param>
 
+	<!-- 
+		Определение активного профиля	
+	-->
+	<context-param>
+		<param-name>spring.profiles.active</param-name>
+		<param-value>development</param-value>
+	</context-param>
 
     <!--
         Фильтры Spring MVC

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+<body>
+	<div th:fragment="form" th:remove="tag">
+		<form th:action="@{/room/new}" method="post" th:object="${room}">
+			<input type="hidden" th:field="*{id}" />
+			<!-- <input type="hidden" th:field="*{ownerId}" />  -->
+			<table class="form-table">
+				<tr>
+					<td class="form-name-space">
+						<label th:for="${#ids.next('name')}" class="control-label" th:text="#{room.create.name}">name</label>
+					</td>
+					<td class="form-control-space">
+						<input type="text" th:field="*{name}" class="form-control" th:errorclass="form-control-error" />
+					</td>
+					<td class="form-error-space">
+						<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert-danger">error message</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<label th:for="${#ids.next('description')}" th:text="#{room.create.description}" class="control-label"></label><br />
+						<textarea th:field="*{description}" class="description-input form-control" th:errorclass="form-control-error"></textarea>
+					</td>
+					<td class="form-error-space">
+						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert-danger">error</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="checkbox" th:field="*{anyoneSpeaker}" th:errorclass="form-control-error" />&nbsp;
+						<label th:for="${#ids.prev('anyoneSpeaker')}" th:text="#{room.create.anyoneSpeaker}" class="control-label"></label>
+					</td>
+					<td class="form-error-space">
+						<span th:if="${#fields.hasErrors('anyoneSpeaker')}" th:errors="*{anyoneSpeaker}" class="alert-danger">error</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="checkbox" th:field="*{publicRoom}" th:errorclass="form-control-error" />&nbsp;
+						<label th:for="${#ids.prev('publicRoom')}" th:text="#{room.create.publicRoom}" class="control-label"></label>
+					</td>
+					<td class="form-error-space">
+						<span th:if="${#fields.hasErrors('publicRoom')}" th:errors="*{publicRoom}" class="alert-danger">error</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="form-name-space">
+						<label for="${#ids.next('startingAt')}" class="control-label" th:text="#{room.create.startingAt}"></label>
+					</td>
+					<td class="form-control-space">
+						The jqueryui datetimepicker will be here<br /> 
+						<input type="text" th:field="*{startingAt}" class="form-control" th:errorclass="form-control-error" />
+					</td>
+					<td class="form-error-space">
+						<span th:if="${#fields.hasErrors('startingAt')}" th:errors="*{startingAt}" class="alert-danger"></span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" id="btnEdit"
+						value="Signup" th:value="#{room.create.save}" class="btn-warning" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

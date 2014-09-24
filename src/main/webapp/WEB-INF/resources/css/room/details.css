@@ -1,0 +1,21 @@
+#details {
+	width: 95%;
+	margin: 3% auto;
+	padding: 0 3% 10px 3%;
+}
+
+.room-item-info {
+	margin-top: 30px;
+}
+
+#presentation {
+	width: 95%;
+	margin: 3% auto;
+	padding: 0 3% 10px 3%;
+	border: 1px solid #ccc;
+}
+
+canvas {
+	width: 95%;
+	height: 80%;
+}
