@@ -1,6 +1,8 @@
 package com.daoleen.devicemeeting.web.controller;
 
+import com.daoleen.devicemeeting.web.domain.Invite;
 import com.daoleen.devicemeeting.web.domain.Role;
+import com.daoleen.devicemeeting.web.domain.Room;
 import com.daoleen.devicemeeting.web.domain.User;
 import com.daoleen.devicemeeting.web.domain.UserDetails;
 import com.daoleen.devicemeeting.web.exception.ForbiddenAccessException;
@@ -36,9 +38,12 @@ import org.springframework.web.servlet.support.RequestContext;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Created by alex on 18.6.14.
@@ -156,9 +161,38 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public String details(Model model, @PathVariable("id") Long id) {
         logger.debug("Processing /account/{} page", id);
-
         User user = userService.findById(id);
+        
+        // My rooms
+        List<Room> myRooms = user.getRooms().stream()
+        		.sorted(new Comparator<Room>() {
+					@Override
+					public int compare(Room o1, Room o2) {
+						return (int) (o2.getId() - o1.getId());
+					}
+				})
+				.limit(5)
+				.collect(Collectors.toList());
+        
+        
+        // My last seen conferences
+        List<Room> mySeenRooms = user.getInvite().stream()
+        	.filter(i -> i.getDate().compareTo(LocalDateTime.now()) < 0)
+        	.sorted(new Comparator<Invite>() {
+        		@Override
+        		public int compare(Invite o1, Invite o2) {
+        			return o2.getDate().compareTo(o1.getDate());
+        		}
+			})
+			.limit(5)
+			.map(i -> i.getRoom())
+			.collect(Collectors.toList());
+        
+        logger.debug("Last seen conferences count: {}", mySeenRooms.size());
+        logger.debug("My own rooms count: {}", myRooms.size());
         model.addAttribute("user", user);
+        model.addAttribute("myRooms", myRooms);
+        model.addAttribute("mySeenRooms", mySeenRooms);
         return "account/details";
     }
     

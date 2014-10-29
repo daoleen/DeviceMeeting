@@ -69,6 +69,10 @@
     margin-top: 5px;
 }
 
+.presentation a {
+	color: #437b43;
+}
+
 .presentation-icon {
     width: 48px;
     height: 48px;

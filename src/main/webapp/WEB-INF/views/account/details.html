@@ -86,21 +86,19 @@
             <div id="user-additional-info" class="panel panel-default">
                 <div class="panel-heading" th:text="#{account.details.conference-activity}">Conference activity</div>
                 <div class="panel-body">
-                    <div class="presentation">
-                        <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
-                        <span th:text="#{account.details.last-seen-conferences}">Here I plan to put a last saw conferences</span>
+                
+                
+                	<div th:each="room : ${mySeenRooms}">
+	                    <div class="presentation">
+	                    	<a th:href="@{/room/details/{id}(id=${room.id})}">
+	                        	<img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
+	                        	<span th:text="${room.name}">Here I plan to put a last saw conferences</span>
+	                        </a>
+	                    </div>
+	                    <div class="clear"></div>
                     </div>
-                    <div class="clear"></div>
-                    <div class="presentation">
-                        <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
-                        <span th:text="#{account.details.last-seen-conferences}">Here I plan to put a last saw conferences</span>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="presentation">
-                        <img class="presentation-icon" th:src="@{/resources/images/conference.png}"/>
-                        <span th:text="#{account.details.last-seen-conferences}">Here I plan to put a last saw conferences</span>
-                    </div>
-                    <div class="clear"></div>
+                    
+                    
                     <a href="#" class="btn btn-success additional-info-more-btn" th:text="#{account.details.button.see-more}">See More</a>
                 </div>
             </div>
@@ -108,16 +106,17 @@
             <div id="user-other-info" class="panel panel-default">
                 <div class="panel-heading" th:text="#{account.details.my-conferences}">USER OTHER INFO</div>
                 <div class="panel-body">
-                    <div class="presentation">
-                        <img class="presentation-icon" th:src="@{/resources/images/presentation.png}"/>
-                        <span>Here I plan to put a last saw conferences</span>
+                    
+                    <div th:each="room : ${myRooms}">
+	                    <div class="presentation">
+	                    	<a th:href="@{/room/details/{id}(id=${room.id})}">
+		                        <img class="presentation-icon" th:src="@{/resources/images/presentation.png}"/>
+		                        <span th:text="${room.name}">Here I plan to put a last saw conferences</span>
+	                        </a>
+	                    </div>
+	                    <div class="clear"></div>
                     </div>
-                    <div class="clear"></div>
-                    <div class="presentation">
-                        <img class="presentation-icon" th:src="@{/resources/images/presentation.png}"/>
-                        <span>Here I plan to put a last saw conferences</span>
-                    </div>
-                    <div class="clear"></div>
+                    
                     <a href="#" class="btn btn-success additional-info-more-btn" th:text="#{account.details.button.see-more}">See More</a>
                 </div>
             </div>
