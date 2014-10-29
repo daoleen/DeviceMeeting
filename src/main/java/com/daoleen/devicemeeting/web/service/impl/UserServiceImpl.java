@@ -4,6 +4,7 @@ import com.daoleen.devicemeeting.web.domain.User;
 import com.daoleen.devicemeeting.web.repository.UserRepository;
 import com.daoleen.devicemeeting.web.service.UserService;
 import com.google.common.collect.Lists;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+
 import java.util.List;
 
 /**
@@ -49,12 +52,18 @@ public class UserServiceImpl implements UserService {
         logger.debug("Finding user by email: {}", email);
 
         //noinspection JpaQlInspection
-        User foundUser = entityManager.createQuery("select u from User u where u.email = :email", User.class)
-                .setParameter("email", email)
-                .getSingleResult();
-        logger.debug("Found user: {}", foundUser);
-        logger.debug("User roles: {}", foundUser.getRoles());
-        return foundUser;
+        try {
+	        User foundUser = entityManager.createQuery("select u from User u where u.email = :email", User.class)
+	                .setParameter("email", email)
+	                .getSingleResult();
+	        logger.debug("Found user: {}", foundUser);
+	        logger.debug("User roles: {}", foundUser.getRoles());
+	        return foundUser;
+        }
+        catch(NoResultException ex) {
+        	logger.debug("Such user was not found. The NoResultException has been catched");
+        	return null;
+        }
     }
 
     @Override

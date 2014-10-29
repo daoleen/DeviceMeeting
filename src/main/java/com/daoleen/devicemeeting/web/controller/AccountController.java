@@ -86,7 +86,7 @@ public class AccountController {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         User user = userService.findByEmail(email);
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             logger.debug("Passwords does not match!");
             redirectAttributes.addFlashAttribute("system_notice",
                     messageSource.getMessage("label.notice.signin.error", null, locale)

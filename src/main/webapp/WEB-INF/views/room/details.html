@@ -37,18 +37,39 @@
 				</p>
 				
 				<p sec:authorize="isAuthenticated()" class="join">
-					<a th:unless="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.join}">JOIN NOW</a>
+					<a id="btnJoinNow" th:unless="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.join}">JOIN NOW</a>
 					<a th:if="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.swithToPlayer}">Switch to player</a>
 				</p>
 		</div>
 		<div class="clear"></div>
 	</div>
 	
-		<div id="presentation">
-			<canvas></canvas>
+		<div sec:authorize="isAuthenticated()" id="presentation">
+			<form name="propertiesForm">
+                <table id="propertiesTable">
+                    <tr>
+                        <th align="left">Color</th>
+                        <td>
+                            <input type="radio" name="color" value="#FF0000" checked="true" />Red
+                        </td>
+                        <td>
+                            <input type="radio" name="color" value="#0000FF" />Blue
+                        </td>
+                        <td>
+                            <input type="radio" name="color" value="#FF9900" />Orange
+                        </td>
+                        <td>
+                            <input type="radio" name="color" value="#33CC33" />Green
+                        </td>
+                    </tr>
+                 </table>
+                 <input type="hidden" name="roomId" th:value="*{id}" />
+            </form>
+			<canvas id="roomCanvas" width="700" height="500"></canvas>
+			<script type="text/javascript" th:src="@{/resources/js/points.js}"></script><!-- in secured section -->
 		</div>
-	
-</div>
-
+		
+	<div id="output"></div>
+</div><!-- #content  -->
 </body>
 </html>

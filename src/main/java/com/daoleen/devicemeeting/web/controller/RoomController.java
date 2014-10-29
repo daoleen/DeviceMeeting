@@ -1,7 +1,6 @@
 package com.daoleen.devicemeeting.web.controller;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
 
 import javax.annotation.Resource;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,15 +29,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.daoleen.devicemeeting.web.domain.Room;
 import com.daoleen.devicemeeting.web.domain.User;
 import com.daoleen.devicemeeting.web.infrastructure.RoomPageParameter;
-import com.daoleen.devicemeeting.web.infrastructure.url.UrlParametersBuilder;
 import com.daoleen.devicemeeting.web.service.InviteService;
 import com.daoleen.devicemeeting.web.service.RoomService;
 import com.daoleen.devicemeeting.web.viewmodel.RoomPage;
-import com.google.common.eventbus.AllowConcurrentEvents;
 
 @Controller
 @RequestMapping("/room")
-@Secured("ROLE_USER")
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class RoomController {
 	private static final Logger logger = LoggerFactory.getLogger(RoomController.class);
 	
@@ -83,7 +81,7 @@ public class RoomController {
 	}
 	
 	
-	@Secured("ROLE_ANONYMOUS")
+	@Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model, @RoomPageParameter RoomPage roomPage) {
 		Page<Room> rooms = roomService.findAllPageable(roomPage);
@@ -91,7 +89,7 @@ public class RoomController {
 		return "room/list";
 	}
 	
-	@Secured("ROLE_ANONYMOUS")
+	@Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value = "/search", method = RequestMethod.GET, params = "keywords")
 	public String search(Model model, @RoomPageParameter RoomPage roomPage, String keywords) {
 		Page<Room> rooms = roomService.searchByName(keywords, roomPage);
@@ -101,7 +99,7 @@ public class RoomController {
 		return "room/search";
 	}
 	
-	@Secured("ROLE_ANONYMOUS")
+	@Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
 	public String details(Model model, @PathVariable("id") Long id) {
 		User user = null;
@@ -109,10 +107,18 @@ public class RoomController {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = context.getAuthentication();
 		//boolean authenticated = auth.getAuthorities().	// PROBLEM: ROLE_ANONYMOUS , authenticated = true
+		//boolean authenticated = auth.isAuthenticated();
 		
-		if(authenticated) {
-			user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}
+		logger.debug("Authorities are:");
+		auth.getAuthorities().parallelStream().forEach(a -> logger.debug("\t{}", a.getAuthority()));
+		
+//		if(authenticated) {
+//			logger.debug("Authentication is: {}", auth.getClass().equals(AnonymousAuthenticationToken.class));
+//			user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		}
+		
+		user = (auth.getClass().equals(AnonymousAuthenticationToken.class)) ? null 
+				: (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		
 		boolean hasInvite = (user != null) && (inviteService.findOne(user.getId(), id) != null);
 		model.addAttribute("room", room);
