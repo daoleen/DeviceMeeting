@@ -1,7 +1,13 @@
 package com.daoleen.devicemeeting.web.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -13,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.daoleen.devicemeeting.web.domain.Invite;
 import com.daoleen.devicemeeting.web.domain.Room;
 import com.daoleen.devicemeeting.web.domain.User;
 import com.daoleen.devicemeeting.web.infrastructure.RoomPageParameter;
@@ -84,8 +92,9 @@ public class RoomController {
 	@Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model, @RoomPageParameter RoomPage roomPage) {
-		Page<Room> rooms = roomService.findAllPageable(roomPage);
+		Page<Room> rooms = roomService.findAllPageable(roomPage);		
 		model.addAttribute("rooms", rooms);
+		model.addAttribute("inviteRoomIds", getInviteRoomIds());
 		return "room/list";
 	}
 	
@@ -96,6 +105,7 @@ public class RoomController {
 		logger.debug("Total received rooms is: {}", rooms.getNumberOfElements());
 		model.addAttribute("rooms", rooms);
 		model.addAttribute("keywords", keywords);
+		model.addAttribute("inviteRoomIds", getInviteRoomIds());
 		return "room/search";
 	}
 	
@@ -106,16 +116,11 @@ public class RoomController {
 		Room room = roomService.findById(id);
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = context.getAuthentication();
-		//boolean authenticated = auth.getAuthorities().	// PROBLEM: ROLE_ANONYMOUS , authenticated = true
-		//boolean authenticated = auth.isAuthenticated();
 		
-		logger.debug("Authorities are:");
-		auth.getAuthorities().parallelStream().forEach(a -> logger.debug("\t{}", a.getAuthority()));
-		
-//		if(authenticated) {
-//			logger.debug("Authentication is: {}", auth.getClass().equals(AnonymousAuthenticationToken.class));
-//			user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		}
+		if(logger.isDebugEnabled()) {
+			logger.debug("Authorities are:");
+			auth.getAuthorities().parallelStream().forEach(a -> logger.debug("\t{}", a.getAuthority()));
+		}
 		
 		user = (auth.getClass().equals(AnonymousAuthenticationToken.class)) ? null 
 				: (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
@@ -124,5 +129,39 @@ public class RoomController {
 		model.addAttribute("room", room);
 		model.addAttribute("hasInvite", hasInvite);
 		return "room/details";
+	}
+	
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/join/{id}", method = RequestMethod.GET)
+	public String join(@PathVariable("id") Long id, 
+			RedirectAttributes redirectAttrs, Locale locale) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Room room = roomService.findById(id);
+		em.merge(user);
+		Invite invite = new Invite();
+		invite.setInviter(room.getOwner());
+		invite.setAccepted(true);	// TODO: clear hardcode
+		invite.setComment("Its free to join room");
+		invite.setDate(LocalDateTime.now());
+		invite.setRejected(false);
+		invite.setRoom(room);
+		invite.setUser(user);
+		invite = inviteService.save(invite);
+		
+		redirectAttrs.addFlashAttribute("system_notice", messageSource.getMessage("room.join.notice.success", null, locale));
+		return String.format("redirect:/room/details/%d", room.getId());
+	}
+	
+	
+	private List<Long> getInviteRoomIds() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User me = (auth.getClass().equals(AnonymousAuthenticationToken.class)) ? null 
+				: (User) auth.getPrincipal();
+		
+		return (me != null)
+				? em.merge(me).getInvite().parallelStream()
+						.map(i -> i.getRoom().getId())
+						.collect(Collectors.toList())
+				: new ArrayList<Long>();
 	}
 }

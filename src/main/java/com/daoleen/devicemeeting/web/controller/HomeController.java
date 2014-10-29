@@ -20,4 +20,8 @@ public class HomeController {
         return "home/index";
     }
 
+    @RequestMapping("/about")
+    public String about() {
+    	return "home/about";
+    }
 }
