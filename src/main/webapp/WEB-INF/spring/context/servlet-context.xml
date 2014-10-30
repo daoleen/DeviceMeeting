@@ -26,6 +26,7 @@
 
     <!-- указать пакет с определениями контроллеров -->
     <context:component-scan base-package="com.daoleen.devicemeeting.web.controller"/>
+    <context:component-scan base-package="com.daoleen.devicemeeting.web.webservice" />
 
     <!-- Валидация -->
     <!-- ВНИМАНИЕ! Файлы локализации должны называться ValidationMessages.properties и лежать в src/main/resources -->

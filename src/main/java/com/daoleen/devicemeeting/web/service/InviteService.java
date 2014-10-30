@@ -12,4 +12,5 @@ public interface InviteService {
 	public List<Invite> findByRoomId(Long roomId);
 	public List<Invite> findByUserId(Long userId);
 	public Invite findOne(Long userId, Long roomId);
+	public int findUnreadInvitationsCount(Long userId);
 }

@@ -76,4 +76,11 @@ public class InviteServiceImpl implements InviteService {
 			return null;
 		}
 	}
+
+	@Override
+	public int findUnreadInvitationsCount(Long userId) {
+		return entityManager.createQuery("select count(i) from Invite i where i.user.id = :userId and accepted = false and rejected = false")
+				.setParameter("userId", userId)
+				.getFirstResult();
+	}
 }

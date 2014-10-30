@@ -27,7 +27,7 @@
                                 <li class="profile-menu-item">
                                     <a href="#">
                                         <img th:src="@{/resources/images/conference.png}" class="profile-menu-icon"/>
-                                        <span th:text="#{templates.profile-menu.rooms-count}">MyRoomsCount</span>: 3
+                                        <span th:text="#{templates.profile-menu.rooms-count}">MyRoomsCount</span>: <span id="myRoomsCount"></span>
                                     </a>
                                 </li>
                                 <li class="profile-menu-item">
@@ -46,7 +46,7 @@
                                     <a href="#">
                                         <img th:src="@{/resources/images/lecture.png}" class="profile-menu-icon"/>
                                         <span th:text="#{templates.profile-menu.invitations}">Invitations</span>:
-                                        <span class="invitations-count">7</span>
+                                        <span class="invitations-count"></span>
                                     </a>
                                 </li>
                             </ul>
@@ -69,6 +69,7 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" th:src="@{/resources/js/profile-menu.js}"></script>
 </div>
 </body>
 </html>

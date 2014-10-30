@@ -12,6 +12,7 @@ import com.daoleen.devicemeeting.web.service.UserDetailsService;
 import com.daoleen.devicemeeting.web.service.UserService;
 import com.daoleen.devicemeeting.web.viewmodel.Account;
 
+import org.apache.bval.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -36,6 +37,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContext;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import java.time.LocalDateTime;
@@ -54,6 +57,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/account")
 public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+    private final int AccountConferencesDetailsCount = 5;
 
     @Resource(name = "userService")
     private UserService userService;
@@ -69,6 +73,9 @@ public class AccountController {
 
     @Resource(name = "passwordEncoder")
     private PasswordEncoder passwordEncoder;
+    
+    @PersistenceContext
+    private EntityManager em;
 
 
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
@@ -171,7 +178,7 @@ public class AccountController {
 						return (int) (o2.getId() - o1.getId());
 					}
 				})
-				.limit(5)
+				.limit(AccountConferencesDetailsCount)
 				.collect(Collectors.toList());
         
         
@@ -184,7 +191,7 @@ public class AccountController {
         			return o2.getDate().compareTo(o1.getDate());
         		}
 			})
-			.limit(5)
+			.limit(AccountConferencesDetailsCount)
 			.map(i -> i.getRoom())
 			.collect(Collectors.toList());
         
@@ -240,5 +247,35 @@ public class AccountController {
     	redirectAttributes.addFlashAttribute("system_notice", messageSource.getMessage("label.notice.error", null, locale));
     	model.addAttribute("userDetails", userDetails);
     	return "account/edit";
+    }
+    
+    
+    @Secured("ROLE_USER")
+    @RequestMapping("/my-rooms")
+    public String myRooms(Model model) {
+        User user = em.merge((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        List<Room> myRooms = user.getRooms();
+        
+        model.addAttribute("rooms", myRooms);
+    	return "account/myrooms";
+    }
+    
+    @Secured("ROLE_USER")
+    @RequestMapping("/my-last-seen-rooms")
+    public String myLastSeenRooms(Model model) {
+    	User user = em.merge((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    	List<Room> mySeenRooms = user.getInvite().stream()
+            	.filter(i -> i.getDate().compareTo(LocalDateTime.now()) < 0)
+            	.sorted(new Comparator<Invite>() {
+            		@Override
+            		public int compare(Invite o1, Invite o2) {
+            			return o2.getDate().compareTo(o1.getDate());
+            		}
+    			})
+    			.map(i -> i.getRoom())
+    			.collect(Collectors.toList());
+    	
+    	model.addAttribute("rooms", mySeenRooms);
+    	return "account/myseenrooms";
     }
 }
