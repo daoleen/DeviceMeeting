@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 </head>
@@ -11,6 +12,7 @@
 
     <div sec:authorize="isAuthenticated()" th:include="layouts/templates/profile-menu::profileMenu" />
     <div sec:authorize="isAnonymous()" th:include="layouts/templates/signin-form::signin" />
+    <div layout:fragment="dynamic-fragments-under-rightmenu"></div> 
 </div>
 </body>
 </html>

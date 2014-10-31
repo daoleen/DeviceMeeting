@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+
+#online-users-in-room {
+	border: 1px solid #cccccc;
+	float: right;
+	margin: -3% auto;
+	padding: 2%;
+	width: 30%;
+}
+
+#online-users {
+	margin-top: 40px;
+}
+
+.online-users-row {
+	margin-top: 5px;
+	padding: 0;
+}
+
+.online-users-row li {
+	width: 30%;
+	float: left;
+	text-decoration: none;
+	list-style-type: none;
+	margin-right: 3%;
+}
+
+.online-user-info {
+	text-align: center;
+	/*border: 1px solid #ccc;*/
+	padding: 3%;
+}
+
+.online-user-info a {
+	font-size: x-small;
+	color: #537cdd;
+}

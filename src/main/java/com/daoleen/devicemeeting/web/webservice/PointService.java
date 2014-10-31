@@ -17,13 +17,17 @@ import org.slf4j.LoggerFactory;
 
 import com.daoleen.devicemeeting.web.domain.User;
 import com.daoleen.devicemeeting.web.infrastructure.MyAuthenticationToken;
+import com.daoleen.devicemeeting.web.webservice.infrastructure.OnlineUser;
+import com.daoleen.devicemeeting.web.webservice.infrastructure.OnlineUserDecoder;
+import com.daoleen.devicemeeting.web.webservice.infrastructure.OnlineUserEncoder;
+import com.daoleen.devicemeeting.web.webservice.infrastructure.Point;
 import com.daoleen.devicemeeting.web.webservice.infrastructure.PointDecoder;
 import com.daoleen.devicemeeting.web.webservice.infrastructure.PointEncoder;
 import com.daoleen.devicemeeting.web.webservice.infrastructure.PointMessageBuffer;
 
 @ServerEndpoint(value = "/points", 
-	encoders = { PointEncoder.class }, 
-	decoders = { PointDecoder.class }
+	encoders = { PointEncoder.class }, //OnlineUserEncoder.class }, 
+	decoders = { PointDecoder.class } //,OnlineUserDecoder.class }
 )
 public class PointService {
 	private final Logger logger = LoggerFactory.getLogger(PointService.class);
@@ -61,6 +65,11 @@ public class PointService {
 			logger.error("Could not connect peer to service: the roomId parameter is empty");
 			peer.getAsyncRemote().sendText("ERROR");
 		}
+		
+		PointMessageBuffer message = new PointMessageBuffer();
+		message.setPoints(new ArrayList<Point>());
+		message.setRoomId(11111111111111l);
+		broadcastMessage(message, peer);
 	}
 	
 	@OnClose
@@ -75,15 +84,28 @@ public class PointService {
 	}
 	
 	@OnMessage
-	public void receiveMessage(PointMessageBuffer message, Session peer) {
-		MyAuthenticationToken userToken = (MyAuthenticationToken) peer.getUserPrincipal();
+	public void receivePointMessageBuffer(PointMessageBuffer message, Session peer) {
+		broadcastMessage(message, peer);
+	}
+	
+//	@OnMessage
+//	public void receiveOnlineUserMessage(OnlineUser message, Session peer){
+//		broadcastMessage(message, peer);
+//	}
+	
+	private long getRoomIdFromPeer(Session peer) {
+		return Long.parseLong(peer.getRequestParameterMap().get("roomId").get(0));
+	}
+	
+	private void broadcastMessage(Object message, Session fromPeer) {
+		MyAuthenticationToken userToken = (MyAuthenticationToken) fromPeer.getUserPrincipal();
 		User user = (User) userToken.getPrincipal();
 		logger.debug("[{}] Message received: {}", user.getEmail(), message);
 		
 		try {
-			long roomId = getRoomIdFromPeer(peer);
+			long roomId = getRoomIdFromPeer(fromPeer);
 			peers.get(roomId).parallelStream().forEach(p -> {
-				if(!p.equals(peer)) {
+				if(!p.equals(fromPeer)) {
 					// --------------------- For debug purposes only!!! --------------------------------//
 					if(logger.isDebugEnabled()) {
 						MyAuthenticationToken recepientToken = (MyAuthenticationToken) p.getUserPrincipal();
@@ -103,11 +125,7 @@ public class PointService {
 		}
 		catch(NumberFormatException | IndexOutOfBoundsException e) {
 			logger.error("Could not receive a message from peer: the roomId parameter is empty");
-			peer.getAsyncRemote().sendText("ERROR");
+			fromPeer.getAsyncRemote().sendText("ERROR");
 		}
-	}
-	
-	private long getRoomIdFromPeer(Session peer) {
-		return Long.parseLong(peer.getRequestParameterMap().get("roomId").get(0));
 	}
 }

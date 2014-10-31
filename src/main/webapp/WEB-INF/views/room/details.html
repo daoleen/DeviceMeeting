@@ -71,5 +71,33 @@
 		
 	<div id="output"></div>
 </div><!-- #content  -->
+
+
+
+<div id="online-users" layout:fragment="dynamic-fragments-under-rightmenu" class="panel panel-default"> <!--  id="online-users-in-room" -->
+	<link type="text/css" rel="stylesheet" th:href="@{/resources/css/room/online-users.css}" />
+	<div class="panel-heading">
+		<span>
+			ONLINE USERS IN THE ROOM
+		</span>
+		</div>
+		<div class="panel-body">
+		    <ul class="online-users-row">
+		    		<!-- foreach -->
+		    		<!-- 
+		    		<img class="userAvatar" th:src="@{${#strings.isEmpty(#authentication.principal.avatar) ? '/resources/images/userAvatar.png' : @applicationConfig['user.dir.avatars']+#authentication.principal.avatar }}"/>
+		    		 -->
+		    	<li class="user-23">
+		    		<div class="online-user-info">
+		    			<a href="#">
+		    				<img class="userAvatar" th:src="@{/resources/images/userAvatar.png}" align="bottom" />
+		    				Alexander Kozlov
+		    			</a>
+		    		</div>
+		    	</li>
+		    		
+		    </ul>
+		</div><!-- panel-body -->
+</div><!-- online-users -->
 </body>
 </html>

@@ -14,7 +14,7 @@ $(document).ready(function(){
 	   	"points": []
 	};
 	
-	websocket.binaryType = "arraybuffer";
+	//websocket.binaryType = "arraybuffer";
 	websocket.onmessage = function(evt) { onSocketMessage(evt) };
 	websocket.onerror = function(evt) { onSocketError(evt) };
 	$("#roomCanvas").bind('mousemove', mouseMoveEvent);
