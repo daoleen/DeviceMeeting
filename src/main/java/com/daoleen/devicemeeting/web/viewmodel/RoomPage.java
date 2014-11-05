@@ -38,7 +38,7 @@ public class RoomPage {
 	}
 
 	public RoomPage(int page, int pageSize, Direction direction, SortingFields sortingField) {
-		logger.debug("Page is: {}, PageSize is: {}, Direction is: {}, SortingField is: {}", page, pageSize, direction, sortingField);
+		logger.debug("Page is: {}, PageSize is: {}, Direction is: {}, SortingField is: {}", new Object[] { page, pageSize, direction, sortingField });
 		pageable = new PageRequest(page-1, pageSize, direction, converter.convertToDatabaseColumn(sortingField));
 	}
 	

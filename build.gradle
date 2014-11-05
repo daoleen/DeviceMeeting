@@ -37,6 +37,9 @@ dependencies {
 	
 	// DB2
 	compile 'cn.guoyukun.jdbc:db2jcc:1.4.2'
+	
+	// MySQL
+	compile 'mysql:mysql-connector-java:5.1.34'
 
     // Data
     compile 'org.springframework:spring-jdbc:4.0.5.RELEASE'

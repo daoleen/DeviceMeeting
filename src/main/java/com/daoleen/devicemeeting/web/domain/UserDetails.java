@@ -1,14 +1,19 @@
 package com.daoleen.devicemeeting.web.domain;
 
-import com.google.common.base.Strings;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
-
-import java.io.Serializable;
+import com.google.common.base.Strings;
 
 /**
  * Created by alex on 9.7.14.
@@ -19,7 +24,12 @@ import java.io.Serializable;
 @Transactional
 public class UserDetails implements Serializable {
 
-    @Size(max = 32)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2618838865503753251L;
+
+	@Size(max = 32)
     @Column(name = "first_name", length = 32)
     private String firstName;
 

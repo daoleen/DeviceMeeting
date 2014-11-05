@@ -41,11 +41,15 @@
     </context-param>
 
 	<!-- 
-		Определение активного профиля	
+		Определение активного профиля:
+		- development	: uses db2 database
+		- test			: uses h2 database
+		- mysql			: uses mysql database
+		- production	: uses mysql database
 	-->
 	<context-param>
 		<param-name>spring.profiles.active</param-name>
-		<param-value>development</param-value>
+		<param-value>mysql</param-value>
 	</context-param>
 
     <!--

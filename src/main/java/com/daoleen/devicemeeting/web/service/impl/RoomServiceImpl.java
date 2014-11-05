@@ -62,7 +62,7 @@ public class RoomServiceImpl implements RoomService {
 		Pageable pageable = roomPage.getPageable();
 		String orderby = String.format("r.%s %s", pageable.getSort().iterator().next().getProperty(), pageable.getSort().iterator().next().getDirection().name());
 		int start = pageable.getPageNumber()*pageable.getPageSize();
-		logger.debug("Search by '{}', orderby: '{}', start position: {}, records count: {}", keywords, orderby, start, pageable.getPageSize());
+		logger.debug("Search by '{}', orderby: '{}', start position: {}, records count: {}", new Object[] { keywords, orderby, start, pageable.getPageSize() });
 		
 		
 		// getting the total items
