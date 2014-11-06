@@ -1,20 +1,19 @@
-package com.daoleen.devicemeeting.web.webservice.infrastructure;
+package com.daoleen.devicemeeting.web.webservice.infrastructure.domain;
 
 import java.io.Serializable;
 
 public class OnlineUser implements Serializable {
 	private static final long serialVersionUID = -7317709353894524233L;
-	enum Status { conntected, disconnected };
+	public enum Status {connected, disconnected }
 	
 	private long id;
-	private String firstName;
-	private String lastName;
+	private String username;
 	private String profileUrl;
 	private String avatarUrl;
 	private Status status;
 	
 	public OnlineUser(long id) {
-		this(id, Status.conntected);
+		this(id, Status.connected);
 	}
 	
 	public OnlineUser(long id, Status status) {
@@ -22,12 +21,11 @@ public class OnlineUser implements Serializable {
 		this.status = status;
 	}
 
-	public OnlineUser(long id, String firstName, String lastName,
-			String profileUrl, String avatarUrl, Status status) {
+	public OnlineUser(long id, String username, String profileUrl,
+					  String avatarUrl, Status status) {
 		super();
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.username = username;
 		this.profileUrl = profileUrl;
 		this.avatarUrl = avatarUrl;
 		this.status = status;
@@ -41,20 +39,12 @@ public class OnlineUser implements Serializable {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getProfileUrl() {

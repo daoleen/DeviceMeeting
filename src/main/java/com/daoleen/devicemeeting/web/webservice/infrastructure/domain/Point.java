@@ -1,4 +1,4 @@
-package com.daoleen.devicemeeting.web.webservice.infrastructure;
+package com.daoleen.devicemeeting.web.webservice.infrastructure.domain;
 
 import java.io.Serializable;
 

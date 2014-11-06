@@ -1,33 +1,18 @@
 package com.daoleen.devicemeeting.web.domain;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-
+import com.daoleen.devicemeeting.web.converter.LocalDateTimePersistenceConverter;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.daoleen.devicemeeting.web.converter.LocalDateTimePersistenceConverter;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by alex on 17.6.14.
@@ -246,13 +231,6 @@ public class User implements Serializable, UserDetails {
 
 	@Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", createdAt=" + createdAt +
-                ", expiresAt=" + expiresAt +
-                '}';
+        return (getUserDetails().toString() != null) ? getUserDetails().toString() : email;
     }
 }

@@ -7,4 +7,7 @@ build/*
 out/*
 web.log
 /build/
-/bin/
+bin/
+*.iml
+*.ipr
+*.iws

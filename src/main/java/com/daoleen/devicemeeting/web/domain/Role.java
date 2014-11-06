@@ -1,21 +1,13 @@
 package com.daoleen.devicemeeting.web.domain;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by alex on 17.6.14.
@@ -25,9 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Table(name = "roles")
 public class Role implements GrantedAuthority, Serializable {
 
-    /**
-	 * 
-	 */
+    @Transient
 	private static final long serialVersionUID = -8044606535331513887L;
 
 	@Id

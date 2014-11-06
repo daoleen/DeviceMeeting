@@ -8,10 +8,13 @@ $(document).ready(function(){
 	var canvas = document.getElementById("roomCanvas");
 	var context = canvas.getContext("2d");
 	var mousedown = false;
-	
+
 	var pointBuffer = {
-	  	"roomId": roomId,
-	   	"points": []
+		"messageType": "points",
+		"points": {
+			"roomId": roomId,
+			"points": []
+		}
 	};
 	
 	//websocket.binaryType = "arraybuffer";
@@ -25,16 +28,37 @@ $(document).ready(function(){
 	console.log(pointBuffer);
 	console.log("point buffer size is: " + getPointBufferLength());
 	
+	//function onSocketMessage(evt) {
+	//    console.log("received: " + evt.data);
+	//    if(evt.data == 'snapshot') {
+	//    	sendSnapshot();
+	//    }
+	//    else {
+	//    	drawPoints(evt.data);
+	//    }
+	//}
+
 	function onSocketMessage(evt) {
-	    console.log("received: " + evt.data);
-	    if(evt.data == 'snapshot') {
-	    	sendSnapshot();
-	    }
-	    else {
-	    	drawPoints(evt.data);
-	    }
+		console.log("received: " + evt.data);
+		var obj = JSON.parse(evt.data);
+
+		switch(obj.messageType) {
+			case "points":
+				drawPoints(obj.points);
+				break;
+			case "onlineUser":
+				onlineUser(obj.onlineUser);
+				break;
+			case "onlineUserList":
+				onlineUserList(obj.onlineUserList);
+				break;
+
+			default:
+				alert("ERROR: " + obj.exception);
+		}
 	}
-	
+
+
 	function onSocketError(evt) {
 		alert("ERROR: " + evt.data);
 	}
@@ -47,18 +71,18 @@ $(document).ready(function(){
 			sendPoints();
 		}
 		console.log("Adding a new point");
-		pointBuffer.points[getPointBufferLength()] = point;
+		pointBuffer.points.points[getPointBufferLength()] = point;
 		console.log(pointBuffer);
 	}
 	
 	function clearPointBuffer() {
 		console.log("Clearing the point buffer");
-		pointBuffer.points = [];
+		pointBuffer.points.points = [];
 		console.log(pointBuffer);
 	}
 	
 	function getPointBufferLength() {
-		return pointBuffer.points.length;
+		return pointBuffer.points.points.length;
 	}
 	
 	function getCursorPosition(evt) {
@@ -109,10 +133,10 @@ $(document).ready(function(){
 	}
 	
 	function drawPoints(buffer) {
-		var obj = JSON.parse(buffer);
-		var count = obj.points.length;
+	//	var obj = JSON.parse(buffer);
+		var count = buffer.points.length;
 		for(i = 0; i < count; i++) {
-			drawPoint(obj.points[i]);
+			drawPoint(buffer.points[i]);
 		}
 	}
 	
@@ -136,7 +160,26 @@ $(document).ready(function(){
 	    console.log("sending binary: " + Object.prototype.toString.call(bytes));
 		websocket.send(bytes);
 	}
-	
+
+	function onlineUser(onlineUser) {
+		if(onlineUser.status == 'connected') {
+			$('.online-users-row').append('<li class="user-'+onlineUser.id+'"><div class="online-user-info"><a href="'+onlineUser.profileUrl+'"><img class="userAvatar" src="'+onlineUser.avatarUrl+'" align="bottom" />'+onlineUser.username+'</a></div></li>');
+		} else if(onlineUser.status == 'disconnected') {
+			$('.online-users-row .user-'+onlineUser.id).remove();
+		}
+	}
+
+	function onlineUserList(list) {
+		console.log("Received OnlineUserList:");
+		console.log(list);
+		var count = list.onlineUsers.length;
+		console.log("count:" + count);
+		for(var i = 0; i < count; i++) {
+			onlineUser(list.onlineUsers[i]);
+		}
+	}
+
+
 	$('#btnJoinNow').click(function(){
 		sendSnapshot();
 		return false;
