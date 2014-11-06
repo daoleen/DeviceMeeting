@@ -17,7 +17,7 @@ $(document).ready(function(){
 		}
 	};
 	
-	//websocket.binaryType = "arraybuffer";
+	websocket.binaryType = "arraybuffer";
 	websocket.onmessage = function(evt) { onSocketMessage(evt) };
 	websocket.onerror = function(evt) { onSocketError(evt) };
 	$("#roomCanvas").bind('mousemove', mouseMoveEvent);
@@ -60,6 +60,7 @@ $(document).ready(function(){
 
 
 	function onSocketError(evt) {
+		console.log(evt);
 		alert("ERROR: " + evt.data);
 	}
 	
@@ -158,6 +159,7 @@ $(document).ready(function(){
 	        bytes[i] = data.data[i];
 	    }
 	    console.log("sending binary: " + Object.prototype.toString.call(bytes));
+		console.log(buffer);
 		websocket.send(bytes);
 	}
 
@@ -180,8 +182,14 @@ $(document).ready(function(){
 	}
 
 
-	$('#btnJoinNow').click(function(){
-		sendSnapshot();
+	$('#btnSwitchToPlayer').click(function(){
+		//sendSnapshot();
 		return false;
+	});
+
+
+	$(window).on('beforeunload', function(){
+		console.log("closing connection with websocket");
+		websocket.close();
 	});
 });

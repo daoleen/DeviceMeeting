@@ -18,7 +18,7 @@ public class PointServiceMessageDecoder implements Decoder.Text<PointServiceMess
 
     @Override
     public boolean willDecode(String s) {
-        return true;
+        return false;
     }
 
     @Override

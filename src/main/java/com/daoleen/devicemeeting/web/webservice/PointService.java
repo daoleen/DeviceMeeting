@@ -16,6 +16,7 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 @ServerEndpoint(value = "/points", 
@@ -104,6 +105,36 @@ public class PointService {
 		broadcastMessage(message, peer);
 	}
 
+	@OnMessage
+	public void onBinaryMessage(ByteBuffer buffer, Session fromPeer) {
+		User user = getUserFromPeer(fromPeer);
+		logger.debug("[{}] Binary Message received: {}", user.getEmail(), buffer);
+
+		try {
+			long roomId = getRoomIdFromPeer(fromPeer);
+			peers.get(roomId).parallelStream().forEach(p -> {
+				if(!p.equals(fromPeer)) {
+					// --------------------- For debug purposes only!!! --------------------------------//
+					if(logger.isDebugEnabled()) {
+						User recepient = getUserFromPeer(p);
+						logger.debug("Send message from [{}] to [{}]", user.getEmail(), recepient.getEmail());
+					}
+
+					try {
+						logger.debug("Message: " + buffer);
+						p.getAsyncRemote().sendBinary(buffer);
+					} catch (Exception e) {
+						logger.error("An exception was occured while sending message to a client");
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		catch(NumberFormatException | IndexOutOfBoundsException e) {
+			logger.error("Could not receive a message from peer: the roomId parameter is empty");
+			fromPeer.getAsyncRemote().sendText("ERROR");
+		}
+	}
 
 	private void broadcastMessage(Object message, Session fromPeer) {
 		User user = getUserFromPeer(fromPeer);

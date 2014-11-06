@@ -38,7 +38,7 @@
 				
 				<p sec:authorize="isAuthenticated()" class="join">
 					<a id="btnJoinNow" th:unless="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.join}" th:href="@{/room/join/{id}(id=*{id})}">JOIN NOW</a>
-					<a th:if="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.swithToPlayer}">Switch to player</a>
+					<a id="btnSwitchToPlayer" th:if="${hasInvite}" class="btn btn-lg btn-success" role="button" href="#" th:text="#{room.list.items.swithToPlayer}">Switch to player</a>
 				</p>
 		</div>
 		<div class="clear"></div>
