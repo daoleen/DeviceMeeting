@@ -19,6 +19,9 @@ import javax.websocket.server.ServerEndpoint;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+
+// TODO: need refactoring
+
 @ServerEndpoint(value = "/points", 
 	encoders = {PointServiceMessageEncoder.class},
 	decoders = {PointServiceMessageDecoder.class}
