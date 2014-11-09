@@ -9,6 +9,7 @@
     <import resource="classpath:database/h2/datasource-h2database.xml"/>
     <import resource="classpath:database/db2/datasource-db2database.xml"/>
     <import resource="classpath:database/mysql/datasource-mysqldatabase.xml"/>
+    <import resource="classpath:database/datasource-production.xml" />
     <import resource="../features/security.xml"/>
     <!--<context:component-scan base-package="com.daoleen.devicemeeting.web.service.impl"/>-->
 

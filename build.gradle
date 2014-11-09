@@ -60,10 +60,9 @@ dependencies {
 	// json
 	compile 'com.google.code.gson:gson:2.3'
 
-    // websocket
-    //compile 'javax.websocket:javax.websocket-client-api:1.1'
-    //compile 'org.apache.tomcat:tomcat-websocket-api:8.0.14'
-    //compile files('/opt/apache-tomcat-7.0.56/lib/*.jar')
+    // tomcat (websocket and etc)
+    compile fileTree(dir: "/opt/apache-tomcat-7.0.56/lib", includes: ['websocket-api.jar'])
+
 
     // Testing
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -91,3 +90,7 @@ idea {
 //		scopes.PROVIDED.plus += configurations.provided
 	}
 }
+
+//test {
+//    systemProperties['spring.profiles.active'] = 'test'
+//}
