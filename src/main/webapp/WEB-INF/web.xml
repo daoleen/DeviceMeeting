@@ -45,11 +45,11 @@
 		- development	: uses db2 database
 		- test			: uses h2 database
 		- mysql			: uses mysql database
-		- production	: uses db2 database
+		- production	: uses production jndi named database
 	-->
 	<context-param>
 		<param-name>spring.profiles.active</param-name>
-		<param-value>development</param-value>
+		<param-value>production</param-value>
 	</context-param>
 
     <!--

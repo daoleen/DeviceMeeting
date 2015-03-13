@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	var roomId = document.propertiesForm.roomId.value;
 	const POINTS_BUFFER_LENGTH = 10;
-	const WSADDRESS = "ws://" + document.location.host + "/DeviceMeeting/points?roomId="+roomId;
+	const WSADDRESS = "ws://" + document.location.host + "/points?roomId="+roomId;
 	
 	var websocket = new WebSocket(WSADDRESS);
 	var canvas = document.getElementById("roomCanvas");

@@ -54,14 +54,15 @@ dependencies {
     compile 'com.google.guava:guava:17.0'
 
     // Logging
-    compile 'org.slf4j:slf4j-api:1.7.7'
-    compile 'org.slf4j:slf4j-log4j12:1.7.7'
+    providedCompile 'org.slf4j:slf4j-api:1.7.7'
+//    compile 'org.slf4j:slf4j-log4j12:1.7.7'
 
 	// json
 	compile 'com.google.code.gson:gson:2.3'
 
     // tomcat (websocket and etc)
-    compile fileTree(dir: "/opt/apache-tomcat-7.0.56/lib", includes: ['websocket-api.jar'])
+//    compile fileTree(dir: "/opt/apache-tomcat-7.0.56/lib", includes: ['websocket-api.jar'])
+    providedCompile 'javax.websocket:javax.websocket-api:1.1'
 
 
     // Testing
@@ -94,3 +95,8 @@ idea {
 //test {
 //    systemProperties['spring.profiles.active'] = 'test'
 //}
+
+
+war {
+    archiveName = 'ROOT.war'
+}

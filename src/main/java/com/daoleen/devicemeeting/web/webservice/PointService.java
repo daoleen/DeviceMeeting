@@ -41,7 +41,7 @@ public class PointService {
 	@OnOpen
 	public void onOpen(Session peer) {
 		long roomId = 0;
-		logger.debug("Peer connected");
+		logger.error("Peer connected");
 		if(logger.isDebugEnabled()) {
 			peer.getRequestParameterMap().forEach((key, params) -> {
 				logger.debug("Request key: {}", key);
@@ -66,6 +66,7 @@ public class PointService {
 		}
 
 		// Notify all connected users about new user
+        logger.info("Session peer is: {}", peer);
 		User connectedUser = getUserFromPeer(peer);
 		PointServiceMessage message = new PointServiceMessage(PointServiceMessage.MessageType.onlineUser,
 				createOnlineUser(connectedUser, OnlineUser.Status.connected)
@@ -172,7 +173,7 @@ public class PointService {
 
 	private User getUserFromPeer(Session peer) {
 		MyAuthenticationToken recepientToken = (MyAuthenticationToken) peer.getUserPrincipal();
-		return (User) recepientToken.getPrincipal();
+		return (recepientToken != null) ? (User) recepientToken.getPrincipal() : null;
 	}
 
 	private long getRoomIdFromPeer(Session peer) {

@@ -11,8 +11,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd"
        profile="production">
 
+    <!-- The jndi name is "java:jboss/datasources/MySQLDS" because of the OpenShift restriction -->
     <jee:jndi-lookup id="dataSource"
-                     jndi-name="java:jboss/datasource/DeviceMeeting"
+                     jndi-name="java:jboss/datasources/MySQLDS"
                      expected-type="javax.sql.DataSource" />
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -41,7 +42,7 @@
 
     <context:annotation-config/>
 
-    <!-- Supporting for Spring Data JPA Repositories -->
+    <!-- Supporting of Spring Data JPA Repositories -->
     <jpa:repositories base-package="com.daoleen.devicemeeting.web.repository"
                       entity-manager-factory-ref="entityManagerFactory"
                       transaction-manager-ref="transactionManager"/>

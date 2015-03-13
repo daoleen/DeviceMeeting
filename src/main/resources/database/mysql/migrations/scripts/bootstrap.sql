@@ -38,13 +38,10 @@ INSERT INTO users (id, email, password, is_enabled, created_at, expires_at, avat
   (1, 'admin@localhost', 'adc65614b4ac6d94a57d7b9aa3d4802914ef6380d8be6e2ea2964aee3502444bcaca8b7911e46011', 1, '2014-06-18 00:00:00', '2015-06-18 00:00:00', 'Donald-Duck.gif'),
   (2, 'user@localhost', '627c695fd827b2d017309bf7085a8d1740383ac680c8f66af5f92eb430d24b44b1939d3716569055', 1, '2014-06-18 00:00:00', '2015-06-18 00:00:00', null);
 
-INSERT INTO user_details(user_id, first_name, last_name) VALUES 
-(1, 'Alexander', 'Kozlov'),
-(2, null, null);
+INSERT INTO user_details(user_id, first_name, last_name) VALUES (1, 'Alexander', 'Kozlov'), (2, null, null);
 
 INSERT INTO roles (id, role) VALUES
   (1, 'ROLE_ADMIN'),
   (2, 'ROLE_USER');
   
-INSERT INTO user_role_refs (user_id, role_id) VALUES 
-	(1, 1), (1, 2), (2, 2);
+INSERT INTO user_role_refs (user_id, role_id) VALUES (1, 1), (1, 2), (2, 2);
